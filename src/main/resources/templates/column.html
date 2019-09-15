@@ -16,9 +16,9 @@
 </head>
 <body>
 <div class="container">
-    <div class="row mt-2">
+    <div class="row">
         <div class="col">
-            <h2>表字段信息</h2>
+            <h2 class="mt-3">表字段信息</h2>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -47,9 +47,7 @@
                     <td th:text="${column.columnKey}"></td>
                     <td th:text="${column.isNullable}"></td>
                     <td th:text="${column.columnDefault}"></td>
-                    <td>
-                        <button class="btn btn-outline-success text-black-50">生成代码</button>
-                    </td>
+                    <td><button class="btn btn-outline-success text-black-50">生成代码</button></td>
                 </tr>
                 </tbody>
             </table>
