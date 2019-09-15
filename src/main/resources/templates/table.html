@@ -1,0 +1,53 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link data-th-href="@{/css/bootstap4.3.1.min.css}" rel="stylesheet">
+    <style type="text/css">
+        th, td{
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>数据库表信息</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>序号</th>
+                    <th>数据库名字</th>
+                    <th>表名</th>
+                    <th>表注释</th>
+                    <th>引擎</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="table,state : ${tables}">
+                    <th><input type="checkbox"></th>
+                    <td th:text="${state.index+1}"></td>
+                    <td th:text="${table.tableSchema}"></td>
+                    <td th:text="${table.tableName}"></td>
+                    <td th:text="${table.tableComment}"></td>
+                    <td th:text="${table.engine}"></td>
+                    <td>
+                        <a class="btn btn-outline-success text-black-50" th:href="@{/detail(tableSchema=${table.tableSchema},tableName=${table.tableName})}">详情</a>
+                        <button class="btn btn-outline-success text-black-50">生成代码</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

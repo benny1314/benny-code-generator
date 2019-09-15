@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+---
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://60.205.220.171:3306/leetcode?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1314
+---
+
+spring:
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none
+---
+
+spring:
+  thymeleaf:
+    cache: false
+    suffix: .html
+    encoding: utf-8
+    servlet:
+      content-type: text/html
+    mode: HTML5
+
+---
+benny:
+  generator:
+    schema: leetcode
+

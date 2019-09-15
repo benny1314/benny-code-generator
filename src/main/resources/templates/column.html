@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link data-th-href="@{/css/bootstap4.3.1.min.css}" rel="stylesheet">
+    <style type="text/css">
+        th, td{
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+            <h2>表字段信息</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>列序号</th>
+                    <th>表名</th>
+                    <th>列名</th>
+                    <th>数据类型</th>
+                    <th>列长度</th>
+                    <th>列注释</th>
+                    <th>属性键类型</th>
+                    <th>是否允许为空</th>
+                    <th>默认值</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="column,state : ${columns}">
+                    <th><input type="checkbox"></th>
+                    <td th:text="${column.ordinalPosition}"></td>
+                    <td><span class="badge badge-success py-2" th:text="${column.tableName}"></span></td>
+                    <td class="text-left font-weight-bold" th:text="${column.columnName}"></td>
+                    <td th:text="${column.dataType}"></td>
+                    <td th:text="${column.length}"></td>
+                    <td th:text="${column.columnComment}"></td>
+                    <td th:text="${column.columnKey}"></td>
+                    <td th:text="${column.isNullable}"></td>
+                    <td th:text="${column.columnDefault}"></td>
+                    <td>
+                        <button class="btn btn-outline-success text-black-50">生成代码</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
