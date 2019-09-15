@@ -24,7 +24,7 @@ public class ColumnRepositoryTest {
 
     @Test
     public void should_return_table_columns_info() {
-        List<ColumnEntity> columns = columnRepository.findByTableSchemaAndTableName("okbbb", "ad");
+        List<ColumnEntity> columns = columnRepository.findByTableSchemaAndTableNameOrderByOrdinalPositionAsc("okbbb", "ad");
         Assertions.assertThat(columns).as("查询表中所有列信息").isNotNull().hasSizeGreaterThan(0);
     }
 

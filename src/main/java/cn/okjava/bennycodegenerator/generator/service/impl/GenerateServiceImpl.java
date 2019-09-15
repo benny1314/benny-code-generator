@@ -32,6 +32,6 @@ public class GenerateServiceImpl implements GenerateService {
 
     @Override
     public List<ColumnEntity> queryTableColumns(String tableName) {
-        return columnRepository.findByTableSchemaAndTableName(GenerateConfig.schema, tableName);
+        return columnRepository.findByTableSchemaAndTableNameOrderByOrdinalPositionAsc(GenerateConfig.schema, tableName);
     }
 }

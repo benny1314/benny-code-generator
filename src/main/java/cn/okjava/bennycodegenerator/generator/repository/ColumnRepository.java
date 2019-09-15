@@ -21,5 +21,5 @@ public interface ColumnRepository extends JpaRepository<ColumnEntity, Long> {
      * @param tableName
      * @return
      */
-    List<ColumnEntity> findByTableSchemaAndTableName(String tableSchema, String tableName);
+    List<ColumnEntity> findByTableSchemaAndTableNameOrderByOrdinalPositionAsc(String tableSchema, String tableName);
 }
