@@ -1,9 +1,6 @@
 package cn.okjava.bennycodegenerator.generator.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -39,6 +36,12 @@ public class ColumnEntity implements Serializable {
      */
     @Column(name = "COLUMN_NAME")
     private String columnName;
+
+    /**
+     * 列名
+     */
+    @Transient
+    private String columnProperty;
 
     /**
      * 数据类型
@@ -154,6 +157,14 @@ public class ColumnEntity implements Serializable {
 
     public void setLength(Integer length) {
         this.length = length;
+    }
+
+    public String getColumnProperty() {
+        return columnProperty;
+    }
+
+    public void setColumnProperty(String columnProperty) {
+        this.columnProperty = columnProperty;
     }
 }
 

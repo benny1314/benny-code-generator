@@ -19,6 +19,14 @@ public interface GenerateService {
     List<TableEntity> queryAllTables();
 
     /**
+     * 根据表明查询表实体信息
+     *
+     * @param tableName
+     * @return
+     */
+    TableEntity queryTableByTableName(String tableName);
+
+    /**
      * 查询表中的所有列
      *
      * @param tableName
@@ -26,4 +34,11 @@ public interface GenerateService {
      */
     List<ColumnEntity> queryTableColumns(String tableName);
 
+    /**
+     * 生成代码
+     *
+     * @param tableName 表名
+     * @return
+     */
+    Integer generate(String tableName);
 }

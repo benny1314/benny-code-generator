@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -48,5 +49,18 @@ public class GenerateController {
         List<ColumnEntity> columns = generateServiceImpl.queryTableColumns(tableName);
         model.addAttribute("columns", columns);
         return "column";
+    }
+
+    /**
+     * 查询表中国的字段
+     *
+     * @param tableName
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/generate")
+    public String genrerateCode(String tableName) {
+        Integer generateFlag = generateServiceImpl.generate(tableName);
+        return String.valueOf(generateFlag);
     }
 }

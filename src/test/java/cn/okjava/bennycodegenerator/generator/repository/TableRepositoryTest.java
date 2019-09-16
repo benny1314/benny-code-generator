@@ -27,4 +27,10 @@ public class TableRepositoryTest {
         List<TableEntity> all = generateRepository.findByTableSchemaEquals("okbbb");
         Assertions.assertThat(all).as("校验查询指定数据所有的表信息").isNotNull().hasSizeGreaterThan(0);
     }
+
+    @Test
+    public void findByTableSchemaAndTableName() {
+        TableEntity tableEntity = generateRepository.findByTableSchemaAndTableName("okbbb", "ad");
+        Assertions.assertThat(tableEntity).as("根据表明查询表详情信息").isNotNull();
+    }
 }

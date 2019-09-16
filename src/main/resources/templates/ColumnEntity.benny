@@ -1,0 +1,35 @@
+package [(${package})];
+
+import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+
+/**
+ * @author [(${author})]
+ * @version [(${version})]
+ * description: [(${tableComment})]
+ */
+@Data
+@Entity
+@Table(name = "[(${tableName})]")
+public class [(${entityName})] implements Serializable {
+
+    private static final long serialVersionUID = [(${serialVersionUID})]L;
+    [# th:each="column : ${columns}"]       [# th:if="${column.columnKey} eq 'PRI'"]
+    /**
+     * [(${column.columnComment})]
+     */
+    @Id
+    @Column(name = "[(${column.columnName})]")
+    private Integer [(${column.columnProperty})]; [/] [# th:if="${column.columnKey} ne 'PRI'"]
+    /**
+     * [(${column.columnComment})]
+     */
+    @Column(name = "[(${column.columnName})]")
+    private Integer [(${column.columnProperty})]; [/]
+[/]
+}

@@ -21,4 +21,12 @@ public interface TableRepository extends JpaRepository<TableEntity, Long> {
      */
     List<TableEntity> findByTableSchemaEquals(String tableSchema);
 
+    /**
+     * 根据表明查询表详情信息
+     *
+     * @param schema
+     * @param tableName
+     * @return
+     */
+    TableEntity findByTableSchemaAndTableName(String schema, String tableName);
 }
