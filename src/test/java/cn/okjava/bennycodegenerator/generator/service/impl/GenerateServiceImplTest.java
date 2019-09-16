@@ -25,6 +25,6 @@ public class GenerateServiceImplTest {
 
     @Test
     public void generate() {
-        Integer hello = generateServiceImpl.generate("t_answer");
+        String t_answer = generateServiceImpl.generate("t_answer");
     }
 }

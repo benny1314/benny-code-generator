@@ -9,24 +9,13 @@ import cn.okjava.bennycodegenerator.generator.config.ThymeleafConfig;
 import cn.okjava.bennycodegenerator.generator.repository.ColumnRepository;
 import cn.okjava.bennycodegenerator.generator.repository.TableRepository;
 import cn.okjava.bennycodegenerator.generator.service.GenerateService;
-import org.springframework.cglib.core.HashCodeCustomizer;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.dialect.IDialect;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.dialect.SpringStandardDialect;
-import org.thymeleaf.templateresolver.StringTemplateResolver;
-import sun.management.Sensor;
-import sun.swing.StringUIClientPropertyKey;
 
 import javax.annotation.Resource;
-import java.sql.Struct;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * @author benny
@@ -71,7 +60,8 @@ public class GenerateServiceImpl implements GenerateService {
             return StrUtil.upperFirst(entityName) + StrUtil.upperFirst(GenerateConfig.entitySuffix);
         }).orElse(""));
         context.setVariable("tableComment", Optional.ofNullable(tableEntity).map(TableEntity::getTableComment).orElse(""));
-        context.setVariable("serialVersionUID", generateSerialVersionUID(tableEntity));;
+        context.setVariable("serialVersionUID", generateSerialVersionUID(tableEntity));
+        ;
         // 设置实体属性
         List<ColumnEntity> columnEntities = queryTableColumns(tableName);
         columnEntities.forEach(columnEntity -> {
@@ -94,6 +84,7 @@ public class GenerateServiceImpl implements GenerateService {
 
     /**
      * 生成 serialVersionUID
+     *
      * @param tableEntity
      * @return
      */
