@@ -101,13 +101,4 @@ public class GenerateServiceImpl implements GenerateService {
     private long generateSerialVersionUID(TableEntity tableEntity) {
         return HashCodeBuilder.reflectionHashCode(tableEntity);
     }
-
-    public static void main(String[] args) {
-        try {
-            System.out.println(Class.forName("cn.okjava.bennycodegenerator.generator.bean.AnswerEntity").hashCode());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-//        System.out.println(GenerateService.class.hashCode());
-    }
 }
