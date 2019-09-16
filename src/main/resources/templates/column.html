@@ -8,6 +8,7 @@
     <title>Document</title>
     <link data-th-href="@{/css/bootstap4.3.1.min.css}" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/default.min.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/monokai-sublime.min.css" rel="stylesheet">
     <style type="text/css">
         th, td {
             text-align: center;
@@ -122,12 +123,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="codeModalLabel">预览</h5>
-                            <button class="btn btn-outline-success copy-btn" id="copyBtn" data-clipboard-action="copy"
-                                    data-clipboard-target="code">复制
-                            </button>
+                            <button class="btn btn-outline-success copy-btn" id="copyBtn" data-clipboard-action="copy" data-clipboard-target="code">复制</button>
                         </div>
                         <div class="modal-body bg-transparent">
-                            <pre><code class="java" id="codeContainer"></code></pre>
+                            <pre><code id="codeContainer"></code></pre>
                         </div>
                     </div>
                 </div>
@@ -137,13 +136,24 @@
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
-<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/java.min.js"></script>
+<!--剪切板复制-->
 <script src="https://cdn.bootcss.com/clipboard.js/2.0.3/clipboard.min.js"></script>
+<!--代码高亮-->
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/java.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.9/languages/xml.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/sql.min.js"></script>
+
+
 <script type="text/javascript">
     // 代码高亮
     hljs.initHighlightingOnLoad();
-
+    /**
+     * 高亮显示代码
+     */
+    function hightLighter() {
+        hljs.highlightBlock($('#codeContainer')[0]);
+    }
     /**
      * 预览生成的代码
      */
@@ -153,8 +163,8 @@
             method: "post",
             success: function (result) {
                 $('#codeContainer').html(result);
-                $('#copyHidden').html(result);
                 $('#myInput').trigger('focus')
+                hightLighter();
             }
         })
     }
@@ -165,12 +175,18 @@
                 return e.content;
             }
         });
-        clipboard.on('success', function (e) {
-            alert("复制成功！")
-        }, function (e) {
+        clipboard.on('error', function (e) {
             alert("复制失败！请手动复制")
         });
     })
 </script>
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/markdown.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/yaml.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/shell.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/go.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/gradle.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/bash.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/javascript.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/json.min.js"></script>-->
 </body>
 </html>
