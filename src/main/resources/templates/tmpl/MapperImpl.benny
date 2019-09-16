@@ -1,0 +1,82 @@
+package cn.okjava.bennycodegenerator.generator.repository;
+
+import cn.okjava.bennycodegenerator.generator.bean.[(${entityName})]Entity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author [(${author})]
+ * @version [(${version})]
+ * description: [(${tableComment})]
+ */
+@Service("[(${entityCamelName})]ServiceImpl")
+public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
+
+    @Resource
+    private [(${entityName})]Mapper [(${entityCamelName})]Mapper;
+
+    /**
+     * 保存[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     */
+    Result<Integer>> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
+        Integer result = [(${entityCamelName})]Mapper.save([(${entityCamelName})][(${entityType})]);
+        if (result == 1) {
+            return Result.success(result);
+        }
+        throw new BennyDaoException("保存[(${entityName})]实体失败");
+    }
+
+    /**
+     * 修改[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     */
+    Result<Integer> update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
+        Integer result = [(${entityCamelName})]Mapper.update([(${entityCamelName})][(${entityType})]);
+        if (result == 1) {
+            return Result.success(result);
+        }
+        throw new BennyDaoException("修改[(${entityName})]实体失败");
+    }
+
+    /**
+     * 删除[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     */
+    Result<Integer> deleteBy[(${entityName})]Id(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
+        Integer result = [(${entityCamelName})]Mapper.deleteBy[(${entityName})]Id([(${entityCamelName})][(${entityType})]);
+        if (result == 1) {
+            return Result.success(result);
+        }
+        throw new BennyDaoException("删除 [(${entityName})]实体失败");
+    }
+
+    /**
+     * 查询[(${entityName})] 列表
+     *
+     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     */
+    Result<List<[(${entityName})][(${entityType})]>> query[(${entityName})]List([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
+        List<[(${entityName})][(${entityType})]> list = [(${entityCamelName})]Mapper.query[(${entityName})]List([(${entityCamelName})][(${entityType})]);
+        if (CollectionUtils.isNotEmpty(list)) {
+            return Result.success(list);
+        }
+        throw new BennyDaoException("查询[(${entityName})]实体列表失败");
+    }
+
+    /**
+     * 根据 [(${entityCamelName})]Id 查询[(${entityName})] 详情
+     *
+     * @param [(${entityCamelName})]Id 主键id
+     */
+    Result<List<[(${entityName})]>> query[(${entityName})]Detail(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
+        Integer result = [(${entityCamelName})]Mapper.query[(${entityName})]Detail([(${entityCamelName})]Id);
+        if (result == 1) {
+            return Result.success(result);
+        }
+        throw new BennyDaoException("保存[(${entityName})]实体失败");
+    }
+}

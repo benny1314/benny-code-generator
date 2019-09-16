@@ -40,6 +40,8 @@ benny:
     author: benny
     version: 1.1
     # 表前缀
-    tableprefix: t_
-    # 实体后缀
+    tableprefix: t_, tb_, schedule_
+    # 实体类后缀 (Bean Entity)
     entitysuffix: entity
+    # lombook不生成 setter和 getter
+    lombok: false

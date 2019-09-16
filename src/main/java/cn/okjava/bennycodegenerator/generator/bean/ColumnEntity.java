@@ -2,6 +2,7 @@ package cn.okjava.bennycodegenerator.generator.bean;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.NoSuchElementException;
 
 /**
  * @author benny
@@ -42,6 +43,12 @@ public class ColumnEntity implements Serializable {
      */
     @Transient
     private String columnProperty;
+
+    /**
+     * 列的数据类型
+     */
+    @Transient
+    private String columnType;
 
     /**
      * 数据类型
@@ -165,6 +172,30 @@ public class ColumnEntity implements Serializable {
 
     public void setColumnProperty(String columnProperty) {
         this.columnProperty = columnProperty;
+    }
+
+    public void setColumnType(String columnType) {
+        this.columnType = columnType;
+    }
+
+    public String getColumnType() {
+        switch (this.dataType) {
+            case "varchar":
+            case "char":
+            case "blob":
+                return "String";
+            case "int":
+            case "smallint":
+            case "tinyint":
+                return "Integer";
+            case "bigint":
+                return "Long";
+            case "datetime":
+            case "timestamp":
+                return "Date";
+            default:
+                throw new NoSuchElementException("未找到栏目类型");
+        }
     }
 }
 

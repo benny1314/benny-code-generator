@@ -4,6 +4,7 @@ import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author benny
@@ -40,5 +41,5 @@ public interface GenerateService {
      * @param tableName 表名
      * @return
      */
-    String generate(String tableName);
+    Map<String,String> generate(String tableName);
 }

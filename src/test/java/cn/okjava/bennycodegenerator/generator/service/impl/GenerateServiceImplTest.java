@@ -8,8 +8,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.*;
-
 /**
  * @author benny
  * @version V1.0.0
@@ -25,6 +23,6 @@ public class GenerateServiceImplTest {
 
     @Test
     public void generate() {
-        String t_answer = generateServiceImpl.generate("t_answer");
+        generateServiceImpl.generate("t_answer");
     }
 }

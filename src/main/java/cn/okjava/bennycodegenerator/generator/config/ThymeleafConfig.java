@@ -6,7 +6,6 @@ import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
 
 /**
  * @author benny
@@ -33,7 +32,7 @@ public enum ThymeleafConfig {
     private String getTemplatePath() {
         try {
             // 获取静态资源文件夹目录
-            return ResourceUtils.getFile("classpath:templates").getPath() + File.separator;
+            return ResourceUtils.getFile("classpath:templates/tmpl").getPath() + File.separator;
         } catch (FileNotFoundException e) {
             throw new RuntimeException("未找到资源文件目录");
         }

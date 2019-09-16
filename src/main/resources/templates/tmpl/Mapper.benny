@@ -1,0 +1,49 @@
+package cn.okjava.bennycodegenerator.generator.repository;
+
+import cn.okjava.bennycodegenerator.generator.bean.[(${entityName})]Entity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author [(${author})]
+ * @version [(${version})]
+ * description: [(${tableComment})]
+ */
+@Repository
+public interface [(${entityName})]Mapper {
+
+    /**
+     * 保存[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     */
+    Integer save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+
+    /**
+     * 修改[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     */
+    Integer update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+
+    /**
+     * 删除[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     */
+    Integer deleteBy[(${entityName})]Id(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
+
+    /**
+     * 查询[(${entityName})] 列表
+     *
+     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     */
+    List<[(${entityName})]> query[(${entityName})]List([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+
+    /**
+     * 根据 [(${entityCamelName})]Id 查询[(${entityName})] 详情
+     *
+     * @param [(${entityCamelName})]Id 主键id
+     */
+    List<[(${entityName})]> query[(${entityName})]List(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
+}

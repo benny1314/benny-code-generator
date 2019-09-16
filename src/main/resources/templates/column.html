@@ -52,8 +52,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <a class="btn btn-outline-dark btn-block text-success" data-toggle="modal" data-target="#codeModal"
-               onclick="preview()">生成代码预览</a>
+            <button class="btn btn-outline-danger text-warning btn-block " onclick="generateCode(this)">生成代码预览</button>
             <input type="hidden" id="previewUrl" th:value="@{/generate(tableName=${tableName})}">
         </div>
     </div>
@@ -62,7 +61,65 @@
             <div class="card">
                 <div class="card-header text-center font-weight-bold">Bean</div>
                 <div class="card-body text-center">
-                    <h5 class="card-title">[(${tableName})]</h5>
+                    <button onclick="preview(1)" class="btn btn-primary m-auto">预览</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+
+            <div class="card">
+                <div class="card-header text-center font-weight-bold border-primary">Jpa Bean</div>
+                <div class="card-body text-center">
+                    <button onclick="preview(2)" class="btn btn-primary m-auto">预览</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Repository</div>
+                <div class="card-body text-center">
+                    <a href="javascript:;" class="btn btn-primary m-auto" onclick="preview(3)">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Mapper</div>
+                <div class="card-body text-center">
+                    <a href="javascript:;" class="btn btn-primary m-auto" onclick="preview(4)">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Service</div>
+                <div class="card-body text-center">
+                    <a href="javascript:;" class="btn btn-primary m-auto" onclick="preview(5)">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">MapperImpl</div>
+                <div class="card-body text-center">
+                    <a href="javascript:;" class="btn btn-primary m-auto" onclick="preview(6)">预览</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">RepositoryImpl</div>
+                <div class="card-body text-center">
+                    <a href="javascript:;" class="btn btn-primary m-auto" onclick="preview(7)">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Controller</div>
+                <div class="card-body text-center">
                     <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
                 </div>
             </div>
@@ -71,43 +128,6 @@
             <div class="card">
                 <div class="card-header text-center font-weight-bold border-primary">Dto</div>
                 <div class="card-body text-center">
-                    <h5 class="card-title">[(${tableName})]</h5>
-                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="card">
-                <div class="card-header text-center font-weight-bold">Controller</div>
-                <div class="card-body text-center">
-                    <h5 class="card-title">[(${tableName})]</h5>
-                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="card">
-                <div class="card-header text-center font-weight-bold">Service</div>
-                <div class="card-body text-center">
-                    <h5 class="card-title">[(${tableName})]</h5>
-                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="card">
-                <div class="card-header text-center font-weight-bold">Impl</div>
-                <div class="card-body text-center">
-                    <h5 class="card-title">[(${tableName})]</h5>
-                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="card">
-                <div class="card-header text-center font-weight-bold">Mapper</div>
-                <div class="card-body text-center">
-                    <h5 class="card-title">[(${tableName})]</h5>
                     <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
                 </div>
             </div>
@@ -123,7 +143,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="codeModalLabel">预览</h5>
-                            <button class="btn btn-outline-success copy-btn" id="copyBtn" data-clipboard-action="copy" data-clipboard-target="code">复制</button>
+                            <button class="btn btn-outline-success copy-btn" id="copyBtn" data-clipboard-action="copy"
+                                    data-clipboard-target="code">复制
+                            </button>
                         </div>
                         <div class="modal-body bg-transparent">
                             <pre><code id="codeContainer"></code></pre>
@@ -146,27 +168,85 @@
 
 
 <script type="text/javascript">
-    // 代码高亮
-    hljs.initHighlightingOnLoad();
+    $(function () {
+        // 代码高亮
+        hljs.initHighlightingOnLoad();
+    });
+
     /**
      * 高亮显示代码
      */
     function hightLighter() {
         hljs.highlightBlock($('#codeContainer')[0]);
     }
+
+    var previewObj = {
+        'bean': '',
+        'jpa': '',
+        'repository': '',
+        'mapper': '',
+        'service': '',
+        'mapperImpl': '',
+        'repositoryImpl': '',
+        'controller': '',
+        'dto': ''
+    };
+
     /**
-     * 预览生成的代码
+     * 生成代码
      */
-    function preview() {
+    function generateCode(me) {
+        var that = $(me);
         $.ajax({
             url: $('#previewUrl').val(),
             method: "post",
             success: function (result) {
-                $('#codeContainer').html(result);
-                $('#myInput').trigger('focus')
-                hightLighter();
+                previewObj['bean'] = result['bean'];
+                previewObj['jpa'] = result['jpa'];
+                previewObj['repository'] = result['repository'];
+                previewObj['mapper'] = result['mapper'];
+                previewObj['service'] = escapeHtml(result['service']);
+                previewObj['mapperImpl'] = result['mapperImpl'];
+                previewObj['repositoryImpl'] = result['repositoryImpl'];
+                that.removeClass("btn-outline-danger");
+                that.removeClass("text-danger");
+                that.addClass("bg-success");
+                that.addClass("text-white");
+                that.text('重新生成');
             }
-        })
+        });
+    }
+
+
+    /**
+     *  预览的类型
+     */
+    previewType = {
+        1: 'bean',
+        2: 'jpa',
+        3: 'repository',
+        4: 'mapper',
+        5: 'service',
+        6: 'mapperImpl',
+        7: 'repositoryImpl'
+    };
+
+    /**
+     * 预览生成的代码
+     */
+    function preview(type) {
+        // 预览类型
+        var previewTypeName = previewType[type];
+        // 获取显示的code
+        var previewCode = previewObj[previewTypeName];
+        if (!previewCode) {
+            alert('数据初始化失败，请重新生成代码');
+            return;
+        }
+        // 赋值
+        $('#codeContainer').html(previewCode);
+        $('#codeModal').modal('toggle');
+        hightLighter();
     }
 
     $(function () {
@@ -178,7 +258,27 @@
         clipboard.on('error', function (e) {
             alert("复制失败！请手动复制")
         });
-    })
+    });
+
+    /**
+     * 特殊字符转义
+     */
+    function escapeHtml(srcString) {
+        // 转义之后的结果
+        var escapseResult = srcString;
+        // javascript正则表达式中的特殊字符
+        var jsSpecialChars = ["\\", "^", "$", "*", "?", ".", "+", "(", ")", "[",
+            "]", "|", "{", "}"];
+        // jquery中的特殊字符,不是正则表达式中的特殊字符
+        // var jquerySpecialChars = ["~", "`", "@", "#", "%", "&", "=", "'", "\"", ":", ";", "<", ">", ",", "/"];
+        var jquerySpecialChars = ["<", ">"];
+        for (var i = 0; i < jquerySpecialChars.length; i++) {
+            // escapseResult = escapseResult.replace(new RegExp(jquerySpecialChars[i], "g"), "\\" + jquerySpecialChars[i]);
+            escapseResult = escapseResult.replace(new RegExp('>', "g"),'&gt;');
+            escapseResult = escapseResult.replace(new RegExp('<', "g"), '&lt;');
+        }
+        return escapseResult;
+    }
 </script>
 <!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/markdown.min.js"></script>-->
 <!--<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/yaml.min.js"></script>-->

@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "[(${tableName})]")
-public class [(${entityName})] implements Serializable {
+public class [(${entityName})][(${entityType})] implements Serializable {
 
     private static final long serialVersionUID = [(${serialVersionUID})]L;
     [# th:each="column : ${columns}"]       [# th:if="${column.columnKey} eq 'PRI'"]
@@ -25,11 +25,11 @@ public class [(${entityName})] implements Serializable {
      */
     @Id
     @Column(name = "[(${column.columnName})]")
-    private Integer [(${column.columnProperty})]; [/] [# th:if="${column.columnKey} ne 'PRI'"]
+    private [(${column.columnType})] [(${column.columnProperty})]; [/] [# th:if="${column.columnKey} ne 'PRI'"]
     /**
      * [(${column.columnComment})]
      */
     @Column(name = "[(${column.columnName})]")
-    private Integer [(${column.columnProperty})]; [/]
+    private [(${column.columnType})] [(${column.columnProperty})]; [/]
 [/]
 }

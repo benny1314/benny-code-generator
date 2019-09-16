@@ -1,0 +1,48 @@
+package cn.okjava.bennycodegenerator.generator.repository;
+
+import cn.okjava.bennycodegenerator.generator.bean.[(${entityName})]Entity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author [(${author})]
+ * @version [(${version})]
+ * description: [(${tableComment})]
+ */
+public interface [(${entityName})]Service {
+
+    /**
+     * 保存[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] 实体
+     */
+    Result<Integer>> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+
+    /**
+     * 修改[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] 实体
+     */
+    Result<Integer> update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+
+    /**
+     * 删除[(${entityName})]
+     *
+     * @param [(${entityCamelName})]Id
+     */
+    Result<Integer> deleteBy[(${entityCamelName})]Id(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
+
+    /**
+     * 查询[(${entityName})] 列表
+     *
+     * @param [(${entityCamelName})][(${entityType})] 实体
+     */
+    Result<List<[(${entityName})][(${entityType})]>> query[(${entityName})]List([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+
+    /**
+     * 根据 [(${entityCamelName})]Id 查询[(${entityName})] 详情
+     *
+     * @param [(${entityCamelName})]Id 主键id
+     */
+    Result<List<[(${entityName})]>> query[(${entityName})]List(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
+}

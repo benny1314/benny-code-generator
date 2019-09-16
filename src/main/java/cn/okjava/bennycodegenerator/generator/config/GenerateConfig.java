@@ -34,11 +34,16 @@ public class GenerateConfig {
     /**
      * 表前缀
      */
-    public static String tablePrefix;
+    public static String[] tablePrefix;
     /**
      * 实体后缀
      */
     public static String entitySuffix;
+    /**
+     * lombok风格
+     */
+    public static boolean lombokStyle;
+
 
     @Value("${benny.generator.schema}")
     public void setSchema(String schema) {
@@ -66,12 +71,17 @@ public class GenerateConfig {
     }
 
     @Value("${benny.generator.tableprefix}")
-    public void setTablePrefix(String tablePrefix) {
+    public void setTablePrefix(String[] tablePrefix) {
         GenerateConfig.tablePrefix = tablePrefix;
     }
 
     @Value("${benny.generator.entitysuffix}")
     public  void setEntitySuffix(String entitySuffix) {
         GenerateConfig.entitySuffix = entitySuffix;
+    }
+
+    @Value("${benny.generator.lombok}")
+    public void setLombokStyle(boolean lombokStyle) {
+        GenerateConfig.lombokStyle = lombokStyle;
     }
 }

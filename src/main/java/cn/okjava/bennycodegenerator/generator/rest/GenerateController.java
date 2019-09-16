@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author benny
@@ -61,8 +62,7 @@ public class GenerateController {
      */
     @ResponseBody
     @PostMapping("/generate")
-    public String genrerateCode(String tableName) {
-        String generate = generateServiceImpl.generate(tableName);
-        return generate;
+    public Map<String, String> genrerateCode(String tableName) {
+        return generateServiceImpl.generate(tableName);
     }
 }

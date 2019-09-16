@@ -1,6 +1,7 @@
 package cn.okjava.bennycodegenerator.generator.service.impl;
 
 import cn.hutool.core.builder.HashCodeBuilder;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
@@ -15,6 +16,7 @@ import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -47,7 +49,7 @@ public class GenerateServiceImpl implements GenerateService {
     }
 
     @Override
-    public String generate(String tableName) {
+    public Map<String, String> generate(String tableName) {
         Context context = new Context();
         TableEntity tableEntity = queryTableByTableName(tableName);
         // 表信息
@@ -55,13 +57,23 @@ public class GenerateServiceImpl implements GenerateService {
         context.setVariable("author", Optional.ofNullable(GenerateConfig.author).orElse(""));
         context.setVariable("version", Optional.ofNullable(GenerateConfig.version).orElse(""));
         context.setVariable("tableName", Optional.ofNullable(tableEntity).map(TableEntity::getTableName).orElse(""));
+        context.setVariable("entityType", Optional.ofNullable(GenerateConfig.entitySuffix).map(StrUtil::upperFirst).orElse(""));
+        // 首字母大写的表名
         context.setVariable("entityName", Optional.ofNullable(tableEntity).map(TableEntity::getTableName).map(name -> {
-            String entityName = StrUtil.replace(name, GenerateConfig.tablePrefix, "");
-            return StrUtil.upperFirst(entityName) + StrUtil.upperFirst(GenerateConfig.entitySuffix);
-        }).orElse(""));
+            for (String prefix : GenerateConfig.tablePrefix) {
+                name = StrUtil.replace(name, prefix, "");
+            }
+            return name;
+        }).map(StrUtil::upperFirst).orElse(""));
+        // 驼峰的表名
+        context.setVariable("entityCamelName", Optional.ofNullable(tableEntity).map(TableEntity::getTableName).map(name -> {
+            for (String prefix : GenerateConfig.tablePrefix) {
+                name = StrUtil.replace(name, prefix, "");
+            }
+            return name;
+        }).map(StrUtil::toCamelCase).orElse(""));
         context.setVariable("tableComment", Optional.ofNullable(tableEntity).map(TableEntity::getTableComment).orElse(""));
         context.setVariable("serialVersionUID", generateSerialVersionUID(tableEntity));
-        ;
         // 设置实体属性
         List<ColumnEntity> columnEntities = queryTableColumns(tableName);
         columnEntities.forEach(columnEntity -> {
@@ -70,7 +82,6 @@ public class GenerateServiceImpl implements GenerateService {
             columnEntity.setColumnName(Optional.of(columnEntity).map(ColumnEntity::getColumnName).orElse(""));
             columnEntity.setColumnProperty(Optional.of(columnEntity).map(entity -> StrUtil.toCamelCase(entity.getColumnName())).orElse(""));
             columnEntity.setColumnDefault(Optional.of(columnEntity).map(entity -> StrUtil.toString(entity.getColumnDefault())).orElse(""));
-            columnEntity.setDataType(Optional.of(columnEntity).map(entity -> StrUtil.toString(entity.getDataType())).orElse(""));
             columnEntity.setIsNullable(Optional.of(columnEntity).map(entity -> StrUtil.toString(entity.getIsNullable())).orElse(""));
             columnEntity.setLength(Optional.of(columnEntity).map(ColumnEntity::getLength).orElse(0));
             columnEntity.setOrdinalPosition(Optional.of(columnEntity).map(ColumnEntity::getOrdinalPosition).orElse(0));
@@ -78,8 +89,29 @@ public class GenerateServiceImpl implements GenerateService {
         // 设置 表字段
         context.setVariable("columns", columnEntities);
         TemplateEngine templateEngine = ThymeleafConfig.getTemplateEngine();
-        String process = templateEngine.process("ColumnEntity.benny", context);
-        return process;
+        // 生成jpa Entity
+        String jpaEntity = templateEngine.process("JpaEntity.benny", context);
+        // 生成Bean
+        String beanEntity = templateEngine.process("Bean.benny", context);
+        // 生成jpa Repository
+        String jpaRepository = templateEngine.process("Repository.benny", context);
+        // 生成 Mapper
+        String mapper = templateEngine.process("Mapper.benny", context);
+        // 生成 Service
+        String service = templateEngine.process("service.benny", context);
+        // 生成 RepositoryImpl
+        String repositoryImpl = templateEngine.process("JpaImpl.benny", context);
+        // 生成 MapperImpl
+        String mapperImpl = templateEngine.process("MapperImpl.benny", context);
+
+        return MapUtil.builder("jpa", jpaEntity)
+                .put("bean", beanEntity)
+                .put("repository", jpaRepository)
+                .put("mapper", mapper)
+                .put("service", service)
+                .put("repositoryImpl", repositoryImpl)
+                .put("mapperImpl", mapperImpl)
+                .build();
     }
 
     /**
