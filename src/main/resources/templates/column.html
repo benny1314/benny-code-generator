@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link data-th-href="@{/css/bootstap4.3.1.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/default.min.css">
     <style type="text/css">
-        th, td{
+        th, td {
             text-align: center;
         }
-
     </style>
 </head>
 <body>
@@ -51,9 +51,126 @@
     </div>
     <div class="row">
         <div class="col">
-            <a class="btn btn-outline-dark btn-block" href="javascript:;">生成代码</a>
+            <a class="btn btn-outline-dark btn-block text-success" data-toggle="modal" data-target="#codeModal"
+               onclick="preview()">生成代码预览</a>
+            <input type="hidden" id="previewUrl" th:value="@{/generate(tableName=${tableName})}">
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Bean</div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">[(${tableName})]</h5>
+                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold border-primary">Dto</div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">[(${tableName})]</h5>
+                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Controller</div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">[(${tableName})]</h5>
+                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Service</div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">[(${tableName})]</h5>
+                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Impl</div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">[(${tableName})]</h5>
+                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold">Mapper</div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">[(${tableName})]</h5>
+                    <a href="javascript:;" class="btn btn-primary m-auto">预览</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--模态框-->
+    <div class="row">
+        <div class="col">
+            <!-- Modal -->
+            <div class="modal fade" id="codeModal" tabindex="-1" role="dialog" aria-labelledby="codeModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document" style="min-width: 800px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="codeModalLabel">预览</h5>
+                            <button class="btn btn-outline-success copy-btn" id="copyBtn" data-clipboard-action="copy"
+                                    data-clipboard-target="code">复制
+                            </button>
+                        </div>
+                        <div class="modal-body bg-transparent">
+                            <pre><code class="java" id="codeContainer"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/java.min.js"></script>
+<script src="https://cdn.bootcss.com/clipboard.js/2.0.3/clipboard.min.js"></script>
+<script type="text/javascript">
+    // 代码高亮
+    hljs.initHighlightingOnLoad();
+
+    /**
+     * 预览生成的代码
+     */
+    function preview() {
+        $.ajax({
+            url: $('#previewUrl').val(),
+            method: "post",
+            success: function (result) {
+                $('#codeContainer').html(result);
+                $('#copyHidden').html(result);
+                $('#myInput').trigger('focus')
+            }
+        })
+    }
+
+    $(function () {
+        var clipboard = new ClipboardJS('.copy-btn', {
+            text: function (e) {
+                return e.content;
+            }
+        });
+        clipboard.on('success', function (e) {
+            alert("复制成功！")
+        }, function (e) {
+            alert("复制失败！请手动复制")
+        });
+    })
+</script>
 </body>
 </html>

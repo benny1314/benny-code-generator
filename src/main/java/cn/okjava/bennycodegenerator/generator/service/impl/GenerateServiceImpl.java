@@ -58,7 +58,7 @@ public class GenerateServiceImpl implements GenerateService {
     }
 
     @Override
-    public Integer generate(String tableName) {
+    public String generate(String tableName) {
         Context context = new Context();
         TableEntity tableEntity = queryTableByTableName(tableName);
         // 表信息
@@ -89,8 +89,7 @@ public class GenerateServiceImpl implements GenerateService {
         context.setVariable("columns", columnEntities);
         TemplateEngine templateEngine = ThymeleafConfig.getTemplateEngine();
         String process = templateEngine.process("ColumnEntity.benny", context);
-        System.out.println(process);
-        return 1;
+        return process;
     }
 
     /**

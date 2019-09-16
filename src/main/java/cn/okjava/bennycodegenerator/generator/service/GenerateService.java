@@ -40,5 +40,5 @@ public interface GenerateService {
      * @param tableName 表名
      * @return
      */
-    Integer generate(String tableName);
+    String generate(String tableName);
 }

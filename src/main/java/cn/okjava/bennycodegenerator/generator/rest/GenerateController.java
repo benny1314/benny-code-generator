@@ -6,6 +6,7 @@ import cn.okjava.bennycodegenerator.generator.service.GenerateService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,6 +49,7 @@ public class GenerateController {
     public String toTableDetail(Model model, String tableName) {
         List<ColumnEntity> columns = generateServiceImpl.queryTableColumns(tableName);
         model.addAttribute("columns", columns);
+        model.addAttribute("tableName", tableName);
         return "column";
     }
 
@@ -58,9 +60,9 @@ public class GenerateController {
      * @return
      */
     @ResponseBody
-    @GetMapping("/generate")
+    @PostMapping("/generate")
     public String genrerateCode(String tableName) {
-        Integer generateFlag = generateServiceImpl.generate(tableName);
-        return String.valueOf(generateFlag);
+        String generate = generateServiceImpl.generate(tableName);
+        return generate;
     }
 }
