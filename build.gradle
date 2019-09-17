@@ -18,8 +18,9 @@ repositories {
     mavenCentral()
 }
 
-ext{
 
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
 
 dependencies {
