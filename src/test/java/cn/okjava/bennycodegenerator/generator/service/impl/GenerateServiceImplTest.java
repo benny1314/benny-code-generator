@@ -1,12 +1,14 @@
 package cn.okjava.bennycodegenerator.generator.service.impl;
 
 import cn.okjava.bennycodegenerator.generator.service.GenerateService;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author benny
@@ -23,6 +25,7 @@ public class GenerateServiceImplTest {
 
     @Test
     public void generate() {
-        generateServiceImpl.generate("t_answer");
+        Map<String, String> resultMap = generateServiceImpl.generate("t_answer");
+        Assertions.assertThat(resultMap).as("生成的字符串map对象").isNotNull().hasSizeGreaterThan(0);
     }
 }

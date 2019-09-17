@@ -8,6 +8,7 @@ import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * @author benny
@@ -33,8 +34,11 @@ public class ThymeleafConfig {
 
     private String getTemplatePath() {
         // 获取静态资源文件夹目录 此种方式 linux 不生效
-        // return ResourceUtils.getFile("classpath:templates" + File.separator + "tmpl").getPath() + File.separator;
-        return this.resourceLoader.getClassLoader().getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "templates" + File.separator + "tmpl" + File.separator).getPath();
+        try {
+            return ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "templates" + File.separator + "tmpl").getPath() + File.separator;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException();
+        }
     }
 
     public static TemplateEngine getTemplateEngine() {
