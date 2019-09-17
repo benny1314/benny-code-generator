@@ -1,11 +1,13 @@
 package cn.okjava.bennycodegenerator.generator.config;
 
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
+import javax.annotation.Resource;
 import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * @author benny
@@ -13,15 +15,15 @@ import java.io.FileNotFoundException;
  * description 模板引擎配置
  * @date 2019/9/16 10:02
  */
-public enum ThymeleafConfig {
-    /**
-     * 初始化
-     */
-    INSTANCE;
+@Component
+public class ThymeleafConfig {
 
-    private TemplateEngine templateEngine;
+    @Resource
+    private ResourceLoader resourceLoader;
 
-    ThymeleafConfig() {
+    private static TemplateEngine templateEngine;
+
+    {
         FileTemplateResolver templateResolver = new FileTemplateResolver();
         templateResolver.setPrefix(getTemplatePath());
         templateResolver.setTemplateMode("TEXT");
@@ -30,15 +32,12 @@ public enum ThymeleafConfig {
     }
 
     private String getTemplatePath() {
-        try {
-            // 获取静态资源文件夹目录
-            return ResourceUtils.getFile("classpath:templates" + File.separator + "tmpl").getPath() + File.separator;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("未找到资源文件目录");
-        }
+        // 获取静态资源文件夹目录 此种方式 linux 不生效
+        // return ResourceUtils.getFile("classpath:templates" + File.separator + "tmpl").getPath() + File.separator;
+        return this.resourceLoader.getClassLoader().getResource(ResourceUtils.CLASSPATH_URL_PREFIX + "templates" + File.separator + "tmpl" + File.separator).getPath();
     }
 
     public static TemplateEngine getTemplateEngine() {
-        return INSTANCE.templateEngine;
+        return templateEngine;
     }
 }
