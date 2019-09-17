@@ -32,7 +32,7 @@ public enum ThymeleafConfig {
     private String getTemplatePath() {
         try {
             // 获取静态资源文件夹目录
-            return ResourceUtils.getFile("classpath:templates/tmpl").getPath() + File.separator;
+            return ResourceUtils.getFile("classpath:templates" + File.separator + "tmpl").getPath() + File.separator;
         } catch (FileNotFoundException e) {
             throw new RuntimeException("未找到资源文件目录");
         }
