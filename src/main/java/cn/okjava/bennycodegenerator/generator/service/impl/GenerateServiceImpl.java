@@ -19,7 +19,6 @@ import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -191,7 +190,7 @@ public class GenerateServiceImpl implements GenerateService {
      */
     private String getTemplateStr(String templateName) {
         try {
-            ClassPathResource resource = new ClassPathResource(File.separator + "templates" + File.separator + "tmpl" + File.separator + templateName);
+            ClassPathResource resource = new ClassPathResource("/templates/tmpl/" + templateName);
             OutputStream out = new ByteArrayOutputStream();
             IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
             return out.toString();
