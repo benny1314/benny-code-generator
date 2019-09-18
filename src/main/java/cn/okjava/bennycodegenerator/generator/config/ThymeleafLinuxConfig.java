@@ -1,6 +1,7 @@
 package cn.okjava.bennycodegenerator.generator.config;
 
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.StringTemplateResolver;
 
 /**
@@ -13,12 +14,12 @@ public enum ThymeleafLinuxConfig {
 
     INSTANCE;
 
-    private TemplateEngine templateEngine;
+    private SpringTemplateEngine templateEngine;
 
     ThymeleafLinuxConfig() {
         StringTemplateResolver templateResolver = new StringTemplateResolver();
         templateResolver.setTemplateMode("TEXT");
-        templateEngine = new TemplateEngine();
+        templateEngine = new SpringTemplateEngine ();
         templateEngine.setTemplateResolver(templateResolver);
     }
 
