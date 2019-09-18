@@ -2,7 +2,7 @@ package cn.okjava.bennycodegenerator.generator.config;
 
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 import java.io.File;
 
@@ -18,7 +18,7 @@ public class ThymeleafConfig {
     private static TemplateEngine templateEngine;
 
     {
-        FileTemplateResolver templateResolver = new FileTemplateResolver();
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 //        templateResolver.setPrefix("templates" + File.separator + "tmpl" + File.separator);
         templateResolver.setTemplateMode("TEXT");
         templateEngine = new TemplateEngine();
