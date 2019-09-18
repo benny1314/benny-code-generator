@@ -35,6 +35,7 @@ public class ThymeleafConfig {
 //        try {
         String templates = ClassLoader.getSystemClassLoader().getResource("templates").getPath() + File.separator;
         System.out.println("---------------》"+templates);
+        return templates;
 //            System.out.println("===============" + templates);
 //            return ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "templates" + File.separator + "tmpl").getPath() + File.separator;
 //        } catch (FileNotFoundException e) {
