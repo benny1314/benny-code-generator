@@ -16,6 +16,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
@@ -24,6 +25,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author benny
@@ -152,6 +154,10 @@ public class GenerateServiceImpl implements GenerateService {
     private Map<String, String> renderLinuxTemplate(Context context, TemplateEngine templateEngine) {
         String templateStr = getTemplateStr("JpaEntity.benny");
         System.out.println("===========>"+templateStr);
+        Set<ITemplateResolver> templateResolvers = templateEngine.getTemplateResolvers();
+        for (ITemplateResolver templateResolver : templateResolvers) {
+            System.out.println("=======》》》"+templateResolver.getName());
+        }
         // 生成jpa Entity
         String jpaEntity = templateEngine.process(templateStr, context);
         // 生成Bean
