@@ -2,7 +2,9 @@ package cn.okjava.bennycodegenerator.generator.config;
 
 import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.thymeleaf.templateresolver.StringTemplateResolver;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,15 +18,25 @@ import java.io.FileNotFoundException;
 public enum ThymeleafConfig {
 
     INSTANCE;
-
+    /**
+     * 文件模板引擎
+     */
     private TemplateEngine templateEngine;
 
     ThymeleafConfig() {
-        FileTemplateResolver templateResolver = new FileTemplateResolver();
-        templateResolver.setPrefix(getTemplatePath());
-        templateResolver.setTemplateMode("TEXT");
-        templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().startsWith("win")) {
+            FileTemplateResolver templateResolver = new FileTemplateResolver();
+            templateResolver.setPrefix(getTemplatePath());
+            templateResolver.setTemplateMode("TEXT");
+            templateEngine = new TemplateEngine();
+            templateEngine.setTemplateResolver(templateResolver);
+        } else {
+            StringTemplateResolver templateResolver = new StringTemplateResolver();
+            templateResolver.setTemplateMode("TEXT");
+            templateEngine = new SpringTemplateEngine();
+            templateEngine.setTemplateResolver(templateResolver);
+        }
     }
 
     private String getTemplatePath() {
