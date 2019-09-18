@@ -63,15 +63,16 @@ public class GenerateServiceImpl implements GenerateService {
             for (String prefix : GenerateConfig.tablePrefix) {
                 name = StrUtil.replace(name, prefix, "");
             }
-            return name;
-        }).map(StrUtil::upperFirst).orElse(""));
-        // 驼峰的表名
+            return StrUtil.upperFirst(StrUtil.toCamelCase(name));
+        }).get());
+        // 小驼峰的表名
         context.setVariable("entityCamelName", Optional.ofNullable(tableEntity).map(TableEntity::getTableName).map(name -> {
             for (String prefix : GenerateConfig.tablePrefix) {
                 name = StrUtil.replace(name, prefix, "");
             }
-            return name;
-        }).map(StrUtil::toCamelCase).orElse(""));
+            return StrUtil.toCamelCase(name);
+        }).get());
+
         context.setVariable("tableComment", Optional.ofNullable(tableEntity).map(TableEntity::getTableComment).orElse(""));
         context.setVariable("serialVersionUID", generateSerialVersionUID(tableEntity));
         // 设置实体属性
@@ -103,6 +104,10 @@ public class GenerateServiceImpl implements GenerateService {
         String repositoryImpl = templateEngine.process("JpaImpl.benny", context);
         // 生成 MapperImpl
         String mapperImpl = templateEngine.process("MapperImpl.benny", context);
+        // 生成dto
+        String dto = templateEngine.process("Dto.benny", context);
+        // 生成controller
+        String controller = templateEngine.process("Controller.benny", context);
 
         return MapUtil.builder("jpa", jpaEntity)
                 .put("bean", beanEntity)
@@ -111,6 +116,8 @@ public class GenerateServiceImpl implements GenerateService {
                 .put("service", service)
                 .put("repositoryImpl", repositoryImpl)
                 .put("mapperImpl", mapperImpl)
+                .put("controller", controller)
+                .put("dto", dto)
                 .build();
     }
 

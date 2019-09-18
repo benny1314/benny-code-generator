@@ -44,5 +44,5 @@ public interface [(${entityName})]Service {
      *
      * @param [(${entityCamelName})]Id 主键id
      */
-    Result<List<[(${entityName})]>> query[(${entityName})]List(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
+    Result<List<[(${entityName})]>> query[(${entityName})]Info(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
 }

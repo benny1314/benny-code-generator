@@ -1,0 +1,78 @@
+package cn.okjava.bennycodegenerator.generator.rest;
+
+import cn.okjava.bennycodegenerator.generator.bean.[(${entityName})]Entity;
+import cn.okjava.bennycodegenerator.generator.service.[(${entityName})]Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author [(${author})]
+ * @version [(${version})]
+ * description: [(${tableComment})]
+ */
+@RestController
+@RequestMapping("/[(${entityName})]")
+public class [(${entityName})]Controller {
+
+    @Resource
+    private [(${entityName})]Service [(${entityCamelName})]ServiceImpl;
+
+    /**
+     * 查看 [(${entityName})] 列表
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/list")
+    public R list() {
+        Result<List<TableEntity>> result = [(${entityCamelName})]ServiceImpl.query[(${entityName})]List();
+        if( result.isSuccess() ) {
+            return R.ok(result.getData());
+        }
+        return R.ok(result.getMsg());
+    }
+
+    /**
+     * 查看 [(${entityName})] 详情
+     *
+     * @return
+     */
+    @PostMapping("/detail")
+    public R info(Integer [(${entityCamelName})]Id) {
+        Result<[(${entityName})]> result = [(${entityCamelName})]ServiceImpl.query[(${entityName})]Info([(${entityCamelName})]Id);
+        if( result.isSuccess() ) {
+            return R.ok(result.getData());
+        }
+        return R.ok(result.getMsg());
+    }
+     /**
+     * 删除 [(${entityName})] 详情
+     *
+     * @return
+     */
+    @PostMapping("/delete")
+    public R deleteBy[(${entityCamelName})]Id(Integer [(${entityCamelName})]Id) {
+        Result<[(${entityName})]> result = [(${entityCamelName})]ServiceImpl.deleteBy[(${entityCamelName})]Id([(${entityCamelName})]Id);
+        if( result.isSuccess() ) {
+            return R.ok(result.getData());
+        }
+        return R.ok(result.getMsg());
+    }
+    /**
+     * 修改[(${entityName})]
+     *
+     * @param [(${entityCamelName})][(${entityType})] 实体
+     */
+    public R update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
+         Result<[(${entityName})]> result = [(${entityCamelName})]ServiceImpl.update[(${entityName})]([(${entityCamelName})][(${entityType})])
+            if( result.isSuccess() ) {
+                return R.ok(result.getData());
+            }
+            return R.ok(result.getMsg());
+    }
+}
