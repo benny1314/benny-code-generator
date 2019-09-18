@@ -1,11 +1,12 @@
 package cn.okjava.bennycodegenerator.generator.config;
 
+import cn.hutool.core.io.IoUtil;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 
 /**
  * @author benny
@@ -29,10 +30,25 @@ public enum ThymeleafConfig {
 
     private String getTemplatePath() {
         try {
+            try {
+                ClassPathResource resource = new ClassPathResource("/templates/tmpl/Bean.benny");
+                OutputStream out = new ByteArrayOutputStream();
+                long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
+                String result = "";
+                IoUtil.write(out, true, result.getBytes());
+                System.out.println("=====");
+                System.out.println(result);
+                System.out.println("=====");
+
+            } catch (IOException e) {
+                throw new RuntimeException("读取模板文件异常", e);
+            }
             // windows 平台下
             return ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "templates" + File.separator + "tmpl").getPath() + File.separator;
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("获取模板路径问题");
+            throw new RuntimeException("can't find the tempalte.");
+        } catch (IOException e) {
+            throw new RuntimeException("IO异常");
         }
     }
 
