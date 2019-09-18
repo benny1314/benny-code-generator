@@ -190,7 +190,7 @@ public class GenerateServiceImpl implements GenerateService {
     private String getTemplateStr(String templateName) {
         try {
 //            ClassPathResource resource = new ClassPathResource("/templates/tmpl/Bean.benny");
-            org.springframework.core.io.Resource resource = new DefaultResourceLoader().getResource("classpath:/templates/tmpl/Bean.benny");
+            org.springframework.core.io.Resource resource = new DefaultResourceLoader().getResource("classpath:/tmpl/Bean.benny");
 
             OutputStream out = new ByteArrayOutputStream();
             long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
