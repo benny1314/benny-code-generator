@@ -8,6 +8,7 @@ import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
 import cn.okjava.bennycodegenerator.generator.config.GenerateConfig;
 import cn.okjava.bennycodegenerator.generator.config.ThymeleafConfig;
+import cn.okjava.bennycodegenerator.generator.config.ThymeleafLinuxConfig;
 import cn.okjava.bennycodegenerator.generator.repository.ColumnRepository;
 import cn.okjava.bennycodegenerator.generator.repository.TableRepository;
 import cn.okjava.bennycodegenerator.generator.service.GenerateService;
@@ -18,8 +19,8 @@ import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
@@ -95,8 +96,12 @@ public class GenerateServiceImpl implements GenerateService {
         });
         // 设置 表字段
         context.setVariable("columns", columnEntities);
-        TemplateEngine templateEngine = ThymeleafConfig.getTemplateEngine();
-        return renderTemplate(context, templateEngine);
+        // 判断操作系统决定使用何种方式渲染模板
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().startsWith("win")) {
+            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+        }
+        return renderTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
     }
 
     /**
@@ -107,19 +112,6 @@ public class GenerateServiceImpl implements GenerateService {
      * @return
      */
     private Map<String, String> renderTemplate(Context context, TemplateEngine templateEngine) {
-        try {
-            InputStream inputStream = new ClassPathResource("/templates/tmpl/Bean.benny").getInputStream();
-            OutputStream out = new ByteArrayOutputStream();
-            long copy = IoUtil.copy(inputStream, out, IoUtil.DEFAULT_BUFFER_SIZE);
-            String result = out.toString();
-            System.out.println("=====");
-            System.out.println(result);
-            System.out.println("=====");
-        } catch (IOException e) {
-
-        }
-
-
         // 生成jpa Entity
         String jpaEntity = templateEngine.process("JpaEntity.benny", context);
         // 生成Bean
@@ -159,39 +151,25 @@ public class GenerateServiceImpl implements GenerateService {
      * @return
      */
     private Map<String, String> renderLinuxTemplate(Context context, TemplateEngine templateEngine) {
-//        org.springframework.core.io.Resource resource = new DefaultResourceLoader().getResource("classpath:test-environment.yml");
-//        System.out.println("文件名称: " + resource.getFilename());
-        try {
-            ClassPathResource resource = new ClassPathResource("/tmpl/JpaEntity.benny");
-            OutputStream out = new ByteArrayOutputStream();
-            long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
-            String result = "";
-            IoUtil.write(out, true, result.getBytes());
-            System.out.println("=====");
-            System.out.println(result);
-            System.out.println("=====");
 
-        } catch (IOException e) {
-            throw new RuntimeException("读取模板文件异常", e);
-        }
         // 生成jpa Entity
-        String jpaEntity = templateEngine.process("JpaEntity.benny", context);
+        String jpaEntity = templateEngine.process(getTemplateStr("JpaEntity.benny"), context);
         // 生成Bean
-        String beanEntity = templateEngine.process("Bean.benny", context);
+        String beanEntity = templateEngine.process(getTemplateStr("Bean.benny"), context);
         // 生成jpa Repository
-        String jpaRepository = templateEngine.process("Repository.benny", context);
+        String jpaRepository = templateEngine.process(getTemplateStr("Repository.benny"), context);
         // 生成 Mapper
-        String mapper = templateEngine.process("Mapper.benny", context);
+        String mapper = templateEngine.process(getTemplateStr("Mapper.benny"), context);
         // 生成 Service
-        String service = templateEngine.process("service.benny", context);
+        String service = templateEngine.process(getTemplateStr("service.benny"), context);
         // 生成 RepositoryImpl
-        String repositoryImpl = templateEngine.process("JpaImpl.benny", context);
+        String repositoryImpl = templateEngine.process(getTemplateStr("JpaImpl.benny"), context);
         // 生成 MapperImpl
-        String mapperImpl = templateEngine.process("MapperImpl.benny", context);
+        String mapperImpl = templateEngine.process(getTemplateStr("MapperImpl.benny"), context);
         // 生成dto
-        String dto = templateEngine.process("Dto.benny", context);
+        String dto = templateEngine.process(getTemplateStr("Dto.benny"), context);
         // 生成controller
-        String controller = templateEngine.process("Controller.benny", context);
+        String controller = templateEngine.process(getTemplateStr("Controller.benny"), context);
 
         return MapUtil.builder("jpa", jpaEntity)
                 .put("bean", beanEntity)
@@ -203,6 +181,23 @@ public class GenerateServiceImpl implements GenerateService {
                 .put("controller", controller)
                 .put("dto", dto)
                 .build();
+    }
+
+    /**
+     * 从资源文件下 通过io流读取文件
+     *
+     * @return
+     * @throws IOException
+     */
+    private String getTemplateStr(String templateName) {
+        try {
+            ClassPathResource resource = new ClassPathResource(File.separator + "templates" + File.separator + "tmpl" + File.separator + templateName);
+            OutputStream out = new ByteArrayOutputStream();
+            IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
+            return out.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("通过流方式读取模板文件失败", e);
+        }
     }
 
     /**
