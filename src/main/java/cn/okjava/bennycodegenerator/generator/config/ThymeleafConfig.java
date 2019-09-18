@@ -2,13 +2,11 @@ package cn.okjava.bennycodegenerator.generator.config;
 
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * @author benny
@@ -34,11 +32,14 @@ public class ThymeleafConfig {
 
     private String getTemplatePath() {
         // 获取静态资源文件夹目录 此种方式 linux 不生效
-        try {
-            return ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "templates" + File.separator + "tmpl").getPath() + File.separator;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException();
-        }
+//        try {
+        String templates = ClassLoader.getSystemClassLoader().getResource("templates").getPath() + File.separator;
+        System.out.println("---------------》"+templates);
+//            System.out.println("===============" + templates);
+//            return ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "templates" + File.separator + "tmpl").getPath() + File.separator;
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException();
+//        }
     }
 
     public static TemplateEngine getTemplateEngine() {
