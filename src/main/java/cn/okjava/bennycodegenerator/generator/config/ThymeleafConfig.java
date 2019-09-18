@@ -33,7 +33,8 @@ public class ThymeleafConfig {
     private String getTemplatePath() {
         // 获取静态资源文件夹目录 此种方式 linux 不生效
 //        try {
-        String templates = ClassLoader.getSystemClassLoader().getResource("templates").getPath() + File.separator;
+
+        String templates = ClassLoader.getSystemResource("templates").getPath() + File.separator;
         System.out.println("---------------》"+templates);
         return templates;
 //            System.out.println("===============" + templates);
