@@ -10,6 +10,7 @@ import cn.okjava.bennycodegenerator.generator.config.ThymeleafConfig;
 import cn.okjava.bennycodegenerator.generator.repository.ColumnRepository;
 import cn.okjava.bennycodegenerator.generator.repository.TableRepository;
 import cn.okjava.bennycodegenerator.generator.service.GenerateService;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -50,6 +51,9 @@ public class GenerateServiceImpl implements GenerateService {
 
     @Override
     public Map<String, String> generate(String tableName) {
+        System.out.println("=====》"+new ClassPathResource("tmpl/Bean.benny").getPath());
+        System.out.println("-------------------->"+getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+
         Context context = new Context();
         TableEntity tableEntity = queryTableByTableName(tableName);
         // 表信息
