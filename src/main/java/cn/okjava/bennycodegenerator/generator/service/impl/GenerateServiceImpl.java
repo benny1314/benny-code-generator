@@ -7,7 +7,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
 import cn.okjava.bennycodegenerator.generator.config.GenerateConfig;
-import cn.okjava.bennycodegenerator.generator.config.ThymeleafConfig;
 import cn.okjava.bennycodegenerator.generator.config.ThymeleafLinuxConfig;
 import cn.okjava.bennycodegenerator.generator.repository.ColumnRepository;
 import cn.okjava.bennycodegenerator.generator.repository.TableRepository;
@@ -190,7 +189,7 @@ public class GenerateServiceImpl implements GenerateService {
      */
     private String getTemplateStr(String templateName) {
         try {
-            ClassPathResource resource = new ClassPathResource("/templates/tmpl/"+templateName);
+            ClassPathResource resource = new ClassPathResource("/tmpl/"+templateName);
             OutputStream out = new ByteArrayOutputStream();
             long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
             return out.toString();
