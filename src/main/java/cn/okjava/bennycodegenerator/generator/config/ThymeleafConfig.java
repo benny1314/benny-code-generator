@@ -31,13 +31,11 @@ public enum ThymeleafConfig {
     private String getTemplatePath() {
         try {
             try {
-                ClassPathResource resource = new ClassPathResource("/templates/tmpl/JpaEntity.benny");
+                ClassPathResource resource = new ClassPathResource("/templates/tmpl/Bean.benny");
                 OutputStream out = new ByteArrayOutputStream();
                 long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
-                String result = "";
-                IoUtil.write(out, true, result.getBytes());
                 System.out.println("=====");
-                System.out.println(result);
+                System.out.println(out.toString());
                 System.out.println("=====");
 
             } catch (IOException e) {
