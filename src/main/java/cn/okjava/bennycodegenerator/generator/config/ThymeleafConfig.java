@@ -31,7 +31,7 @@ public enum ThymeleafConfig {
     private String getTemplatePath() {
         try {
             try {
-                ClassPathResource resource = new ClassPathResource("/tmpl/JpaEntity.benny");
+                ClassPathResource resource = new ClassPathResource("/templates/tmpl/JpaEntity.benny");
                 OutputStream out = new ByteArrayOutputStream();
                 long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
                 String result = "";
