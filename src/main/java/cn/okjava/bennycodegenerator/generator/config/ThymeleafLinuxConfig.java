@@ -1,15 +1,7 @@
 package cn.okjava.bennycodegenerator.generator.config;
 
-import cn.hutool.core.io.IoUtil;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.StringTemplateResolver;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * @author benny
@@ -31,18 +23,6 @@ public enum ThymeleafLinuxConfig {
     }
 
     public static TemplateEngine getTemplateEngine() {
-        try {
-            Resource resource = new DefaultResourceLoader().getResource("classpath:/tmpl/Bean.benny");
-            OutputStream out = new ByteArrayOutputStream();
-            long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
-            System.out.println("=====");
-            System.out.println(out.toString());
-            System.out.println("=====");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("can't find the tempalte.");
-        } catch (IOException e) {
-            throw new RuntimeException("IO异常");
-        }
         return INSTANCE.templateEngine;
     }
 }

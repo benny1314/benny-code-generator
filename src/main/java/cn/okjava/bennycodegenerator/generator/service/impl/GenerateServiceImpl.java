@@ -8,10 +8,11 @@ import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
 import cn.okjava.bennycodegenerator.generator.config.GenerateConfig;
 import cn.okjava.bennycodegenerator.generator.config.ThymeleafConfig;
+import cn.okjava.bennycodegenerator.generator.config.ThymeleafLinuxConfig;
 import cn.okjava.bennycodegenerator.generator.repository.ColumnRepository;
 import cn.okjava.bennycodegenerator.generator.repository.TableRepository;
 import cn.okjava.bennycodegenerator.generator.service.GenerateService;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -95,11 +96,11 @@ public class GenerateServiceImpl implements GenerateService {
         // 设置 表字段
         context.setVariable("columns", columnEntities);
         // 判断操作系统决定使用何种方式渲染模板
-//        String os = System.getProperty("os.name");
-//        if (os.toLowerCase().startsWith("win")) {
-            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
-//        }
-//        return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().startsWith("win")) {
+        return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+        }
+        return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
     }
 
     /**
@@ -149,9 +150,10 @@ public class GenerateServiceImpl implements GenerateService {
      * @return
      */
     private Map<String, String> renderLinuxTemplate(Context context, TemplateEngine templateEngine) {
-
+        String templateStr = getTemplateStr("JpaEntity.benny");
+        System.out.println("===========>"+templateStr);
         // 生成jpa Entity
-        String jpaEntity = templateEngine.process(getTemplateStr("JpaEntity.benny"), context);
+        String jpaEntity = templateEngine.process(templateStr, context);
         // 生成Bean
         String beanEntity = templateEngine.process(getTemplateStr("Bean.benny"), context);
         // 生成jpa Repository
@@ -189,7 +191,7 @@ public class GenerateServiceImpl implements GenerateService {
      */
     private String getTemplateStr(String templateName) {
         try {
-            ClassPathResource resource = new ClassPathResource("/templates/tmpl/Bean.benny");
+            org.springframework.core.io.Resource resource = new DefaultResourceLoader().getResource("/templates/tmpl/" + templateName);
             OutputStream out = new ByteArrayOutputStream();
             long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
             return out.toString();
