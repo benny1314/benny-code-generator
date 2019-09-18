@@ -90,19 +90,19 @@ public class GenerateServiceImpl implements GenerateService {
         context.setVariable("columns", columnEntities);
         TemplateEngine templateEngine = ThymeleafConfig.getTemplateEngine();
         // 生成jpa Entity
-        String jpaEntity = templateEngine.process("JpaEntity.benny", context);
+        String jpaEntity = templateEngine.process("templates/tmpl/JpaEntity.benny", context);
         // 生成Bean
-        String beanEntity = templateEngine.process("Bean.benny", context);
+        String beanEntity = templateEngine.process("templates/tmpl/Bean.benny", context);
         // 生成jpa Repository
-        String jpaRepository = templateEngine.process("Repository.benny", context);
+        String jpaRepository = templateEngine.process("templates/tmpl/Repository.benny", context);
         // 生成 Mapper
-        String mapper = templateEngine.process("Mapper.benny", context);
+        String mapper = templateEngine.process("templates/tmpl/Mapper.benny", context);
         // 生成 Service
-        String service = templateEngine.process("service.benny", context);
+        String service = templateEngine.process("templates/tmpl/service.benny", context);
         // 生成 RepositoryImpl
-        String repositoryImpl = templateEngine.process("JpaImpl.benny", context);
+        String repositoryImpl = templateEngine.process("templates/tmpl/JpaImpl.benny", context);
         // 生成 MapperImpl
-        String mapperImpl = templateEngine.process("MapperImpl.benny", context);
+        String mapperImpl = templateEngine.process("templates/tmpl/MapperImpl.benny", context);
 
         return MapUtil.builder("jpa", jpaEntity)
                 .put("bean", beanEntity)

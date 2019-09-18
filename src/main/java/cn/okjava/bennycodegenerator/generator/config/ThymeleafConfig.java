@@ -19,7 +19,7 @@ public class ThymeleafConfig {
 
     {
         FileTemplateResolver templateResolver = new FileTemplateResolver();
-        templateResolver.setPrefix("templates" + File.separator + "tmpl" + File.separator);
+//        templateResolver.setPrefix("templates" + File.separator + "tmpl" + File.separator);
         templateResolver.setTemplateMode("TEXT");
         templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
