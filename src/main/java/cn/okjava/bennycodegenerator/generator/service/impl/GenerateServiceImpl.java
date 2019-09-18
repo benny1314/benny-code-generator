@@ -7,11 +7,11 @@ import cn.hutool.core.util.StrUtil;
 import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
 import cn.okjava.bennycodegenerator.generator.config.GenerateConfig;
-import cn.okjava.bennycodegenerator.generator.config.ThymeleafLinuxConfig;
+import cn.okjava.bennycodegenerator.generator.config.ThymeleafConfig;
 import cn.okjava.bennycodegenerator.generator.repository.ColumnRepository;
 import cn.okjava.bennycodegenerator.generator.repository.TableRepository;
 import cn.okjava.bennycodegenerator.generator.service.GenerateService;
-import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -97,9 +97,9 @@ public class GenerateServiceImpl implements GenerateService {
         // 判断操作系统决定使用何种方式渲染模板
 //        String os = System.getProperty("os.name");
 //        if (os.toLowerCase().startsWith("win")) {
-//            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
 //        }
-        return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
+//        return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
     }
 
     /**
@@ -189,9 +189,7 @@ public class GenerateServiceImpl implements GenerateService {
      */
     private String getTemplateStr(String templateName) {
         try {
-//            ClassPathResource resource = new ClassPathResource("/templates/tmpl/Bean.benny");
-            org.springframework.core.io.Resource resource = new DefaultResourceLoader().getResource("classpath:/tmpl/Bean.benny");
-
+            ClassPathResource resource = new ClassPathResource("/templates/tmpl/Bean.benny");
             OutputStream out = new ByteArrayOutputStream();
             long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
             return out.toString();
