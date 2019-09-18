@@ -1,5 +1,6 @@
 package cn.okjava.bennycodegenerator.generator.config;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
@@ -35,6 +36,10 @@ public class ThymeleafConfig {
     private String getTemplatePath() {
         // 获取静态资源文件夹目录 此种方式 linux 不生效
         try {
+            System.out.println("=====》"+new ClassPathResource("Bean.benny").getPath());
+            System.out.println("=====》"+new ClassPathResource("tmpl/Bean.benny").getPath());
+            System.out.println("=====》"+new ClassPathResource("templates/tmpl/Bean.benny").getPath());
+            System.out.println("-------------------->"+getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
             return ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "templates" + File.separator + "tmpl").getPath() + File.separator;
         } catch (FileNotFoundException e) {
             throw new RuntimeException();
