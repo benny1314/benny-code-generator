@@ -101,7 +101,7 @@ public class GenerateServiceImpl implements GenerateService {
         if (os.toLowerCase().startsWith("win")) {
             return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
         }
-        return renderLinuxTemplate()Template(context, ThymeleafLinuxConfig.getTemplateEngine());
+        return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
     }
 
     /**
