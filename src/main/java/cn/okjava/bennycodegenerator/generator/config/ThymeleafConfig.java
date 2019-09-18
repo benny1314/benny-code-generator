@@ -1,7 +1,8 @@
 package cn.okjava.bennycodegenerator.generator.config;
 
 import cn.hutool.core.io.IoUtil;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.util.ResourceUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -31,13 +32,11 @@ public enum ThymeleafConfig {
     private String getTemplatePath() {
         try {
             try {
-                ClassPathResource resource = new ClassPathResource("/templates/tmpl/Bean.benny");
+                Resource resource = new DefaultResourceLoader().getResource("/templates/tmpl/Bean.benny");
                 OutputStream out = new ByteArrayOutputStream();
                 long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
-                String result = "";
-                IoUtil.write(out, true, result.getBytes());
                 System.out.println("=====");
-                System.out.println(result);
+                System.out.println(out.toString());
                 System.out.println("=====");
 
             } catch (IOException e) {
