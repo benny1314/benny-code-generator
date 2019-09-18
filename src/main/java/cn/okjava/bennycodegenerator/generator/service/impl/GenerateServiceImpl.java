@@ -16,7 +16,6 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
@@ -25,7 +24,6 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author benny
@@ -152,14 +150,8 @@ public class GenerateServiceImpl implements GenerateService {
      * @return
      */
     private Map<String, String> renderLinuxTemplate(Context context, TemplateEngine templateEngine) {
-        String templateStr = getTemplateStr("JpaEntity.benny");
-        System.out.println("===========>"+templateStr);
-        Set<ITemplateResolver> templateResolvers = templateEngine.getTemplateResolvers();
-        for (ITemplateResolver templateResolver : templateResolvers) {
-            System.out.println("=======》》》"+templateResolver.getName());
-        }
         // 生成jpa Entity
-        String jpaEntity = templateEngine.process(templateStr, context);
+        String jpaEntity = templateEngine.process(getTemplateStr("JpaEntity.benny"), context);
         // 生成Bean
         String beanEntity = templateEngine.process(getTemplateStr("Bean.benny"), context);
         // 生成jpa Repository
@@ -167,7 +159,7 @@ public class GenerateServiceImpl implements GenerateService {
         // 生成 Mapper
         String mapper = templateEngine.process(getTemplateStr("Mapper.benny"), context);
         // 生成 Service
-        String service = templateEngine.process(getTemplateStr("service.benny"), context);
+        String service = templateEngine.process(getTemplateStr("Service.benny"), context);
         // 生成 RepositoryImpl
         String repositoryImpl = templateEngine.process(getTemplateStr("JpaImpl.benny"), context);
         // 生成 MapperImpl

@@ -19,7 +19,7 @@ public enum ThymeleafLinuxConfig {
     ThymeleafLinuxConfig() {
         StringTemplateResolver templateResolver = new StringTemplateResolver();
         templateResolver.setTemplateMode("TEXT");
-        templateEngine = new SpringTemplateEngine ();
+        templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
     }
 
