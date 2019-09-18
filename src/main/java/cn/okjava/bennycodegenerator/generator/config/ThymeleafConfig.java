@@ -1,11 +1,9 @@
 package cn.okjava.bennycodegenerator.generator.config;
 
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
-import javax.annotation.Resource;
 import java.io.File;
 
 /**
@@ -17,14 +15,11 @@ import java.io.File;
 @Component
 public class ThymeleafConfig {
 
-    @Resource
-    private ResourceLoader resourceLoader;
-
     private static TemplateEngine templateEngine;
 
     {
         FileTemplateResolver templateResolver = new FileTemplateResolver();
-        templateResolver.setPrefix(getTemplatePath());
+        templateResolver.setPrefix("templates" + File.separator + "tmpl" + File.separator);
         templateResolver.setTemplateMode("TEXT");
         templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
@@ -34,7 +29,7 @@ public class ThymeleafConfig {
         // 获取静态资源文件夹目录 此种方式 linux 不生效
 //        try {
 
-        String templates = ClassLoader.getSystemResource("templates").getPath() + File.separator;
+        String templates = ClassLoader.getSystemResource("templates" + File.separator + "tmpl").getPath() + File.separator;
         System.out.println("---------------》"+templates);
         return templates;
 //            System.out.println("===============" + templates);
