@@ -96,10 +96,10 @@ public class GenerateServiceImpl implements GenerateService {
         // 设置 表字段
         context.setVariable("columns", columnEntities);
         // 判断操作系统决定使用何种方式渲染模板
-        String os = System.getProperty("os.name");
-        if (os.toLowerCase().startsWith("win")) {
-            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
-        }
+//        String os = System.getProperty("os.name");
+//        if (os.toLowerCase().startsWith("win")) {
+//            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+//        }
         return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
     }
 
@@ -190,12 +190,12 @@ public class GenerateServiceImpl implements GenerateService {
      */
     private String getTemplateStr(String templateName) {
         try {
-            ClassPathResource resource = new ClassPathResource("/templates/tmpl/" + templateName);
+            ClassPathResource resource = new ClassPathResource("/templates/tmpl/"+templateName);
             OutputStream out = new ByteArrayOutputStream();
-            IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
+            long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
             return out.toString();
         } catch (IOException e) {
-            throw new RuntimeException("通过流方式读取模板文件失败", e);
+            throw new RuntimeException("render template exception", e);
         }
     }
 
