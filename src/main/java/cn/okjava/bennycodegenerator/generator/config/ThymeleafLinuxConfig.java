@@ -32,7 +32,7 @@ public enum ThymeleafLinuxConfig {
 
     public static TemplateEngine getTemplateEngine() {
         try {
-            Resource resource = new DefaultResourceLoader().getResource("classpath:/templates/tmpl/Bean.benny");
+            Resource resource = new DefaultResourceLoader().getResource("classpath:/tmpl/Bean.benny");
             OutputStream out = new ByteArrayOutputStream();
             long copy = IoUtil.copy(resource.getInputStream(), out, IoUtil.DEFAULT_BUFFER_SIZE);
             System.out.println("=====");
