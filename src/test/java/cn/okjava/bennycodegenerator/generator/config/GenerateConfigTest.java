@@ -20,7 +20,7 @@ public class GenerateConfigTest {
         Assertions.assertThat(GenerateConfig.schema)
                 .as("静态注入数据库名字")
                 .isNotBlank()
-                .isEqualTo("leetcode");
+                .isEqualTo("baby-story");
 
     }
 }
