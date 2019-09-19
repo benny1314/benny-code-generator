@@ -51,7 +51,7 @@
              UPDATE [(${tableName})]
                 SET
                 <trim suffixOverrides=",">
-                    [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"]
+                    [# th:each="column : ${columns}"][# th:if="${column.columnKey} ne 'PRI'"]
                     <if test="[(${column.columnProperty})] != null>
                         `[(${column.columnName})]` = #{[(${column.columnProperty})]},
                     </if>[/][/]
