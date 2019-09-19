@@ -10,7 +10,9 @@
 
     <sql id="allResult">
         <trim suffixOverrides=",">
-          [# th:each="column : ${columns}"] [(${column.columnName})], [/]
+          [# th:each="column : ${columns}"]
+            [(${column.columnName})],
+           [/]
         </trim>
     </sql>
 
