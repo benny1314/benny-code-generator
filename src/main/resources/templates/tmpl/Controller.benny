@@ -68,6 +68,7 @@ public class [(${entityName})]Controller {
      *
      * @param [(${entityCamelName})][(${entityType})] 实体
      */
+    @PostMapping("/update")
     public R update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
          Result<[(${entityName})]> result = [(${entityCamelName})]ServiceImpl.update[(${entityName})]([(${entityCamelName})][(${entityType})])
             if( result.isSuccess() ) {
