@@ -165,12 +165,14 @@ public class GenerateServiceImpl implements GenerateService {
         String service = templateEngine.process(getTemplateStr("Service.benny"), context);
         // 生成 RepositoryImpl
         String repositoryImpl = templateEngine.process(getTemplateStr("JpaImpl.benny"), context);
-        // 生成 MapperImpl
-        String mapperImpl = templateEngine.process(getTemplateStr("MapperImpl.benny"), context);
+        // 生成 serviceImpl
+        String serviceImpl = templateEngine.process(getTemplateStr("ServiceImpl.benny"), context);
         // 生成dto
         String dto = templateEngine.process(getTemplateStr("Dto.benny"), context);
         // 生成controller
         String controller = templateEngine.process(getTemplateStr("Controller.benny"), context);
+        // 生成 mapperXml
+        String mapperXml = templateEngine.process(getTemplateStr("MapperXml.benny"), context);
 
         return MapUtil.builder("jpa", jpaEntity)
                 .put("bean", beanEntity)
@@ -178,9 +180,10 @@ public class GenerateServiceImpl implements GenerateService {
                 .put("mapper", mapper)
                 .put("service", service)
                 .put("repositoryImpl", repositoryImpl)
-                .put("mapperImpl", mapperImpl)
+                .put("ServiceImpl", serviceImpl)
                 .put("controller", controller)
                 .put("dto", dto)
+                .put("mapperXml", mapperXml)
                 .build();
     }
 
