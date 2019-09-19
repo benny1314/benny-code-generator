@@ -150,7 +150,7 @@
                 previewObj['jpa'] = result['jpa'];
                 previewObj['repository'] = result['repository'];
                 previewObj['mapper'] = result['mapper'];
-                previewObj['service'] = escapeHtml(result['service']);
+                previewObj['service'] = result(result['service']);
                 previewObj['serviceImpl'] = result['serviceImpl'];
                 previewObj['repositoryImpl'] = result['repositoryImpl'];
                 previewObj['controller'] = result['controller'];
@@ -176,7 +176,7 @@
             return;
         }
         // 赋值
-        $('#codeContainer').html(previewCode);
+        $('#codeContainer').html(escapeHtml(previewCode));
         $('#codeModal').modal('toggle');
         hightLighter();
     }
