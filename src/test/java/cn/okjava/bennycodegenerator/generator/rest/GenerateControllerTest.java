@@ -48,7 +48,7 @@ public class GenerateControllerTest {
 
     @Test
     public void should_return_json_when_call_generate() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/generate").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("tableName", "t_answer"))
+        mockMvc.perform(MockMvcRequestBuilders.post("/generate").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("tableName", "t_note"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(System.out::print)
