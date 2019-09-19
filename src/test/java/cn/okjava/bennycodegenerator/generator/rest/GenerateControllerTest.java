@@ -52,7 +52,7 @@ public class GenerateControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(System.out::print)
-                .andExpect(MockMvcResultMatchers.jsonPath("$.mapperImpl").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.mapperImpl").isString());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.serviceImpl").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.serviceImpl").isString());
     }
 }

@@ -4,8 +4,8 @@
 
     <resultMap type="cn.okjava.baby.modules.[(${entityCamelName})].bean.[(${entityName})]" id="[(${entityCamelName})]Map">
         [# th:each="column : ${columns}"]       [# th:if="${column.columnKey} eq 'PRI'"]
-        <id property="[(${column.columnProperty})]" column="[(${column.columnName})]"/>[/] [# th:if="${column.columnKey} ne 'PRI'"
-        <result property="[(${column.columnProperty})]" column="[(${column.columnName})]"/> [/]
+        <id property="[(${column.columnProperty})]" column="[(${column.columnName})]"/>[/] [# th:if="${column.columnKey} ne 'PRI'"]
+        <result property="[(${column.columnProperty})]" column="[(${column.columnName})]"/> [/][/]
      </resultMap>
 
     <sql id="allResult">
@@ -21,7 +21,7 @@
 
     <!--查询 [(${entityName})] 详情-->
     <select id="query[(${entityName})]Info" resultMap="[(${entityCamelName})]Map">
-        select <include refid="allResult"/> from [(${tableName})] where [(${columns[0].columnName})] = #{[(${entityCamelName})]Id}
+        select <include refid="allResult"/> from [(${tableName})] where [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] [(${column.columnName})] [/][/] = #{[(${entityCamelName})]Id}
     </select>
 
     <!--修改 [(${entityName})]-->
@@ -34,12 +34,12 @@
                         `[(${column.columnName})]` = #{[(${column.columnProperty})]},
                     </if>[/][/]
                 </trim>
-                where [(${columns[0].columnName})] = #{[(${entityCamelName})]Id}
+                where [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] [(${column.columnName})] [/][/] = #{[(${entityCamelName})]Id}
     </update>
 
     <!- 删除 [(${entityName})]-->
     <delete id=" deleteBy[(${entityName})]Id">
-         delete from [(${tableName})] where [(${columns[0].columnName})] = #{[(${entityCamelName})]Id}
+         delete from [(${tableName})] where [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] [(${column.columnName})] [/][/] =#{[(entityCamelName)]}
     </delete>
 
 </mapper>
