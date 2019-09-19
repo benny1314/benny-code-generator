@@ -34,10 +34,10 @@ spring:
 benny:
   generator:
     # 数据库名字
-    schema: leetcode
-    package: cn.okjava.bennycodegenerator.generator.bean
+    schema: baby-story
+    package: cn.okbbb.baby.modules
     outputdir: E:\tdd
-    author: benny
+    author: kaiyan
     version: 1.1
     # 表前缀
     tableprefix: t_, tb_, schedule_
