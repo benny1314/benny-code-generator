@@ -191,7 +191,7 @@ public class ColumnEntity implements Serializable {
                 return "Integer";
             case "bigint":
                 return "Long";
-            case "data":
+            case "date":
             case "datetime":
             case "timestamp":
                 return "Date";
