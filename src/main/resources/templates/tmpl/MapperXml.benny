@@ -16,7 +16,7 @@
 
     <!--保存 [(${entityName})] -->
     <insert id="save[(${entityName})]([(${entityName})]["
-    [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] keyProperty="[(${column.columnProperty})]" keyColumn="[(${column.columnName})]" [/][/]>
+    [# th:each="column : ${columns}"][# th:if="${column.columnKey} ne 'PRI'"] keyProperty="[(${column.columnProperty})]" keyColumn="[(${column.columnName})]" [/][/]>
         INSERT INTO [(${tableName})]
         (
         <trim suffixOverrides=",">
