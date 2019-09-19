@@ -16,13 +16,18 @@ import java.io.FileNotFoundException;
  * @date 2019/9/16 10:02
  */
 public enum ThymeleafConfig {
-
+    /**
+     *
+     */
     INSTANCE;
     /**
      * 文件模板引擎
      */
     private TemplateEngine templateEngine;
 
+    /**
+     * 构造引擎
+     */
     ThymeleafConfig() {
         String os = System.getProperty("os.name");
         if (os.toLowerCase().startsWith("win")) {
