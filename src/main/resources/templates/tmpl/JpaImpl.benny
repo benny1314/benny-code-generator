@@ -20,7 +20,8 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
      *
      * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
      */
-    Result<Integer> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
+     @Override
+    public Result<Integer> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
         Integer result = [(${entityCamelName})]Repository.save([(${entityCamelName})][(${entityType})]);
         if (result == 1) {
             return Result.success(result);
@@ -33,7 +34,8 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
      *
      * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
      */
-    Result<Integer> update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
+    @Override
+    public Result<Integer> update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
         Integer result = [(${entityCamelName})]Repository.update([(${entityCamelName})][(${entityType})]);
         if (result == 1) {
             return Result.success(result);
@@ -46,7 +48,8 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
      *
      * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
      */
-    Result<Integer> deleteBy[(${entityName})]Id(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
+    @Override
+    public Result<Integer> deleteBy[(${entityName})]Id(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
         Integer result = [(${entityCamelName})]Repository.deleteBy[(${entityName})]Id([(${entityCamelName})][(${entityType})]);
         if (result == 1) {
             return Result.success(result);
@@ -59,7 +62,8 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
      *
      * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
      */
-    Result<List<[(${entityName})][(${entityType})]>> query[(${entityName})]List([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
+    @Override
+    public Result<List<[(${entityName})][(${entityType})]>> query[(${entityName})]List([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
         List<[(${entityName})][(${entityType})]> list = [(${entityCamelName})]Repository.query[(${entityName})]List([(${entityCamelName})][(${entityType})]);
         if (CollectionUtils.isNotEmpty(list)) {
             return Result.success(list);
@@ -72,7 +76,8 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
      *
      * @param [(${entityCamelName})]Id 主键id
      */
-    Result<List<[(${entityName})]>> query[(${entityName})]Detail(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
+    @Override
+    public Result<List<[(${entityName})]>> query[(${entityName})]Detail(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
         Integer result = [(${entityCamelName})]Repository.query[(${entityName})]Detail([(${entityCamelName})]Id);
         if (result == 1) {
             return Result.success(result);

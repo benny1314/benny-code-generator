@@ -14,6 +14,28 @@
         </trim>
     </sql>
 
+    <!--保存 [(${entityName})] -->
+    <insert id="save[(${entityName})]([(${entityName})]["
+    [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] keyProperty="[(${column.columnProperty})]" keyColumn="[(${column.columnName})]" [/][/]>
+        INSERT INTO [(${tableName})]
+        (
+        <trim suffixOverrides=",">
+             [# th:each="column : ${columns}"]
+              <if test="userId!=null">
+                             `[(${column.columnName})]`,
+             </if> [/]
+            </trim>
+            )
+            VALUES
+            (
+             [# th:each="column : ${columns}"]
+                <if test="userId!=null">
+                              #{[(${column.columnProperty})]}
+                </if> [/]
+            )
+         </trim>
+    </insert>
+
     <!--查询 [(${entityName})] 列表-->
     <select id="query[(${entityName})]List" resultMap="[(${entityCamelName})]Map">
         select <include refid="allResult"/> from [(${tableName})]
