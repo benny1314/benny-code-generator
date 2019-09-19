@@ -183,6 +183,7 @@ public class ColumnEntity implements Serializable {
             case "varchar":
             case "char":
             case "blob":
+            case "text":
                 return "String";
             case "int":
             case "smallint":
@@ -190,6 +191,7 @@ public class ColumnEntity implements Serializable {
                 return "Integer";
             case "bigint":
                 return "Long";
+            case "data":
             case "datetime":
             case "timestamp":
                 return "Date";
