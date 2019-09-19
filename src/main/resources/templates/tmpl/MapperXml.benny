@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.zmchip.litchiweb.modules.[(${entityCamelName})].mapper. [(${entityName})]Mapper">
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="[(${packageName})].[(${entityCamelName})].mapper. [(${entityName})]Mapper">
 
     <resultMap type="cn.okjava.baby.modules.[(${entityCamelName})].bean.[(${entityName})]" id="[(${entityCamelName})]Map">
-     [# th:each="column : ${columns}"]       [# th:if="${column.columnKey} eq 'PRI'"]
+        [# th:each="column : ${columns}"]       [# th:if="${column.columnKey} eq 'PRI'"]
         <id property="[(${column.columnProperty})]" column="[(${column.columnName})]"/>[/] [# th:if="${column.columnKey} ne 'PRI'"
-        <result property="[(${column.columnProperty})]" column="[(${column.columnName})]"/>
-    [/] </resultMap>
+        <result property="[(${column.columnProperty})]" column="[(${column.columnName})]"/> [/]
+     </resultMap>
 
     <sql id="allResult">
         <trim suffixOverrides=",">
           [# th:each="column : ${columns}"] [(${column.columnName})], [/]
         </trim>
     </sql>
+
     <!--查询 [(${entityName})] 列表-->
-    <select id="queryIndexBannerList" resultMap="columnMap" parameterType="integer">
-        select <include refid="allResult"/> from [(${tableName})] where type_id = 1 and is_deleted = 0 and source_from = #{sourceFrom,jdbcType=INTEGER}
+    <select id="query[(${entityName})]List" resultMap="[(${entityCamelName})]Map">
+        select <include refid="allResult"/> from [(${tableName})]
     </select>
 
-    <!--查询首页广告位列表-->
-    <select id="queryIndexAdvertiseList" resultMap="columnMap" parameterType="integer">
-        select <include refid="allResult"/> from t_banner where type_id = 2 and is_deleted = 0 and source_from = #{sourceFrom,jdbcType=INTEGER}
+    <!--查询 [(${entityName})] 详情-->
+    <select id="query[(${entityName})]Info" resultMap="[(${entityCamelName})]Map">
+        select <include refid="allResult"/> from [(${tableName})] where [(${columns[0].columnName})] = #{[(${entityCamelName})]Id}
     </select>
 
-    <!--查询商城列表-->
-    <select id="queryShopBannerList" resultMap="columnMap" parameterType="integer">
-        select <include refid="allResult"/> from t_banner where type_id = 3 and is_deleted = 0 and source_from = #{sourceFrom,jdbcType=INTEGER}
-    </select>
+    <!--修改 [(${entityName})]-->
+    <update id="update[(${entityName})]">
+             UPDATE [(${tableName})]
+                SET
+                <trim suffixOverrides=",">
+                    [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"]
+                    <if test="[(${column.columnProperty})] != null>
+                        `[(${column.columnName})]` = #{[(${column.columnProperty})]},
+                    </if>[/][/]
+                </trim>
+                where [(${columns[0].columnName})] = #{[(${entityCamelName})]Id}
+    </update>
 
-    <!--查询动态轮播图列表-->
-    <select id="queryDynamicCarouselList" resultMap="columnMap" parameterType="integer">
-        select <include refid="allResult"/> from t_banner where type_id = 4 and is_deleted = 0 and source_from = #{sourceFrom,jdbcType=INTEGER}
-    </select>
+    <!- 删除 [(${entityName})]-->
+    <delete id=" deleteBy[(${entityName})]Id">
+         delete from [(${tableName})] where [(${columns[0].columnName})] = #{[(${entityCamelName})]Id}
+    </delete>
 
-    <!--查询话题广场轮播图列表-->
-    <select id="queryPlaygroundTopicCarouselList" resultMap="columnMap" parameterType="integer">
-        select <include refid="allResult"/> from t_banner where type_id = 5 and is_deleted = 0 and source_from = #{sourceFrom,jdbcType=INTEGER}
-    </select>
-    <!--查询 山果子邦 轮播图列表-->
-    <select id="queryAssessmentTopicCarouselList" resultMap="columnMap" parameterType="integer">
-        select <include refid="allResult"/> from t_banner where type_id = 6 and is_deleted = 0 and source_from = #{sourceFrom,jdbcType=INTEGER}
-    </select>
 </mapper>

@@ -45,5 +45,5 @@ public interface [(${entityName})]Mapper {
      *
      * @param [(${entityCamelName})]Id 主键id
      */
-    List<[(${entityName})]> query[(${entityName})]List(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
+    [(${entityName})] query[(${entityName})]Info(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
 }

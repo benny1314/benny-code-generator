@@ -106,7 +106,8 @@
         'serviceImpl': '',
         'repositoryImpl': '',
         'controller': '',
-        'dto': ''
+        'dto': '',
+        'mapperXml': ''
     };
 
     let temp = `<div class="col-2"> <div class="card"> <div class="card-header text-center font-weight-bold">{{0}}</div> <div class="card-body text-center"> <button onclick="preview('{{0}}')" class="btn btn-primary m-auto">预览</button> </div> </div></div>`
@@ -154,6 +155,7 @@
                 previewObj['repositoryImpl'] = result['repositoryImpl'];
                 previewObj['controller'] = result['controller'];
                 previewObj['dto'] = result['dto'];
+                previewObj['mapperXml'] = result['mapperXml'];
                 that.removeClass("btn-outline-danger");
                 that.removeClass("text-danger");
                 that.addClass("bg-success");
