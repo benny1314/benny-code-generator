@@ -124,7 +124,7 @@ public class GenerateServiceImpl implements GenerateService {
         // 生成 RepositoryImpl
         String repositoryImpl = templateEngine.process("JpaImpl.benny", context);
         // 生成 MapperImpl
-        String mapperImpl = templateEngine.process("ServicerImpl.benny", context);
+        String mapperImpl = templateEngine.process("ServiceImpl.benny", context);
         // 生成dto
         String dto = templateEngine.process("Dto.benny", context);
         // 生成controller
