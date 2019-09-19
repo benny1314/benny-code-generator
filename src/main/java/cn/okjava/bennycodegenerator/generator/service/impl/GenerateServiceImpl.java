@@ -180,7 +180,7 @@ public class GenerateServiceImpl implements GenerateService {
                 .put("mapper", mapper)
                 .put("service", service)
                 .put("repositoryImpl", repositoryImpl)
-                .put("ServiceImpl", serviceImpl)
+                .put("serviceImpl", serviceImpl)
                 .put("controller", controller)
                 .put("dto", dto)
                 .put("mapperXml", mapperXml)
