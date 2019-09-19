@@ -25,7 +25,7 @@ public class GenerateServiceImplTest {
 
     @Test
     public void generate() {
-        Map<String, String> resultMap = generateServiceImpl.generate("t_answer");
+        Map<String, String> resultMap = generateServiceImpl.generate("t_note");
         Assertions.assertThat(resultMap).as("生成的字符串map对象").isNotNull().hasSizeGreaterThan(0);
     }
 }
