@@ -11,17 +11,12 @@
 
     <sql id="allResult">
         <trim suffixOverrides=",">
-            `link`,
-            `img_url`,
-            `title`,
-            `type_id`,
-            `source_from`,
+          [# th:each="column : ${columns}"] [(${column.columnName})], [/]
         </trim>
     </sql>
-    <!--1:首页 2：广告位 3：商城 4：动态 5：话题-->
-    <!--查询首页轮播图列表-->
+    <!--查询 [(${entityName})] 列表-->
     <select id="queryIndexBannerList" resultMap="columnMap" parameterType="integer">
-        select <include refid="allResult"/> from t_banner where type_id = 1 and is_deleted = 0 and source_from = #{sourceFrom,jdbcType=INTEGER}
+        select <include refid="allResult"/> from [(${tableName})] where type_id = 1 and is_deleted = 0 and source_from = #{sourceFrom,jdbcType=INTEGER}
     </select>
 
     <!--查询首页广告位列表-->

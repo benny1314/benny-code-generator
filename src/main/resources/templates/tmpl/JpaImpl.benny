@@ -20,7 +20,7 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
      *
      * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
      */
-    Result<Integer>> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
+    Result<Integer> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
         Integer result = [(${entityCamelName})]Repository.save([(${entityCamelName})][(${entityType})]);
         if (result == 1) {
             return Result.success(result);
