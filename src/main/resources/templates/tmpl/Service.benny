@@ -16,7 +16,7 @@ public interface [(${entityName})]Service {
      *
      * @param [(${entityCamelName})][(${entityType})] 实体
      */
-    Result<Integer>> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+    Result<Integer> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
 
     /**
      * 修改[(${entityName})]
