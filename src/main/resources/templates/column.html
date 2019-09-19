@@ -13,6 +13,12 @@
         th, td {
             text-align: center;
         }
+        .letter-space-zero-5{
+            letter-spacing: .5em;
+        }
+        input[type="text"]{
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -50,10 +56,66 @@
             </table>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-outline-danger text-warning btn-block " onclick="generateCode(this)">生成代码预览</button>
+
+    <div class="row my-5">
+        <div class="col-6">
+            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#configContainer" aria-expanded="false" aria-controls="collapseExample">配置基本信息</button>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-outline-danger text-warning btn-block" onclick="generateCode(this)">生成代码预览</button>
             <input type="hidden" id="previewUrl" th:value="@{/generate(tableName=${tableName})}">
+        </div>
+        <div class="col-12 pt-3">
+            <div class="collapse" id="configContainer">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text letter-space-zero-5">包名</span>
+                    </div>
+                    <input type="text" class="form-control col-form-label-lg font-weight-bold" name="packageName" placeholder="请输入包名字">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">模块名</span>
+                    </div>
+                    <input type="text" class="form-control font-weight-bold col-form-label-lg" name="moduleName" placeholder="请输入模块名字">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text letter-space-zero-5">作者</span>
+                    </div>
+                    <input type="text" class="form-control font-weight-bold col-form-label-lg" name="author" placeholder="请输入作者">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text letter-space-zero-5">版本</span>
+                    </div>
+                    <input type="text" class="form-control font-weight-bold col-form-label-lg" name="version" placeholder="请输入版本">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">表前缀</span>
+                    </div>
+                    <input type="text" class="form-control font-weight-bold col-form-label-lg" name="tablePrefix" placeholder="请输入表前缀，逗号分隔">
+                </div>
+                <!--   <div class="input-group mb-3" style="display: none;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text font-weight-bold col-form-label-lg">实体后缀</span>
+                    </div>
+                    <input type="text" class="form-control" name="entitySuffix" placeholder="请输入表前缀，逗号分隔">
+                </div>-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">开启Lombok</span>
+                    </div>
+                    <select class="form-control font-weight-bold col-form-label-lg" name="lombokFlag">
+                        <option value="true" selected>开启</option>
+                        <option value="false">关闭</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                   <button class="btn btn-block btn-success" onclick="confirmSetConfig()">保存配置</button>
+                </div>
+            </div>
         </div>
     </div>
     <div id="previewContainer"></div>
@@ -96,6 +158,41 @@
         // 代码高亮
         hljs.initHighlightingOnLoad();
     });
+    // 初始化配置
+    function initConfig(){
+        let configObj = localStorage.getItem('generatorConfig');
+        if (configObj) {
+            configObj=JSON.parse(configObj);
+            $.each(configObj,function(k,v){
+                $('input[name="' + k + '"]').val(v);
+            })
+        }
+    }
+    initConfig();
+
+    function checkConfig(){
+        const configFrms = $('#configContainer').find('input[type="text"]');
+        let checkFlag = $.each(configFrms,function (idx, ele) {
+            if(!$(ele)){
+                return false;
+            }
+        });
+        if (!checkFlag) {
+            alert('配置信息填写不完全');
+        }
+
+    }
+
+    function confirmSetConfig(){
+        const configFrms = $('#configContainer').find('input[type="text"]');
+        var params = {};
+        $.each(configFrms,function (idx, ele) {
+            let value = $(ele).val();
+            let name = $(ele).attr('name');
+            params[name] = value;
+        });
+        localStorage.setItem("generatorConfig", JSON.stringify(params));
+    }
 
     var previewObj = {
         'bean': '',
