@@ -37,6 +37,7 @@ benny:
     schema: baby-story
     package: cn.okbbb.baby.modules
     outputdir: E:\tdd
+    module: user
     author: kaiyan
     version: 1.1
     # 表前缀
