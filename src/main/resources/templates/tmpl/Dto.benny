@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @version [(${version})]
  * description: [(${tableComment})]
  */
-@Data
+[# th:if="${lombokFlag}"]@Data[/]
 public class [(${entityName})]Dto implements Serializable {
 
     private static final long serialVersionUID = [(${serialVersionUID})]L;
@@ -29,12 +29,12 @@ public class [(${entityName})]Dto implements Serializable {
      */
     private [(${column.columnType})] [(${column.columnCamelProperty})];
     [/]
-    [# th:each="column : ${columns}"]
+    [# th:if="${lombokFlag}"][# th:each="column : ${columns}"]
     public void set[(${column.columnProperty})]([(${column.columnType})] [(${column.columnCamelProperty})]) {
             this.[(${column.columnCamelProperty})] = [(${column.columnCamelProperty})];
     }
-    public String get[(${column.columnProperty})]() {
+   public [(${column.columnType})] get[(${column.columnProperty})]() {
         return [(${column.columnCamelProperty})];
     }
-    [/]
+    [/][/]
 }

@@ -42,7 +42,7 @@ public class GenerateConfig {
     /**
      * lombok风格
      */
-    public static boolean lombokStyle;
+    public static boolean lombokFlag;
 
     @Value("${benny.generator.schema}")
     public void setSchema(String schema) {
@@ -80,7 +80,7 @@ public class GenerateConfig {
     }
 
     @Value("${benny.generator.lombok}")
-    public void setLombokStyle(boolean lombokStyle) {
-        GenerateConfig.lombokStyle = lombokStyle;
+    public void setLombokStyle(boolean lombokFlag) {
+        GenerateConfig.lombokFlag = lombokFlag;
     }
 }

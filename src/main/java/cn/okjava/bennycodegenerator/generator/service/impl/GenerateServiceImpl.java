@@ -3,6 +3,7 @@ package cn.okjava.bennycodegenerator.generator.service.impl;
 import cn.hutool.core.builder.HashCodeBuilder;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
 import cn.okjava.bennycodegenerator.generator.bean.ConfigEntity;
@@ -69,6 +70,7 @@ public class GenerateServiceImpl implements GenerateService {
         GenerateConfig.version = configEntity.getVersion();
         GenerateConfig.outputDir = configEntity.getOutputDir();
         GenerateConfig.entitySuffix = configEntity.getEntitySuffix();
+        GenerateConfig.lombokFlag = configEntity.isLombokFlag();
         return StrUtil.EMPTY;
     }
 
@@ -103,6 +105,7 @@ public class GenerateServiceImpl implements GenerateService {
         context.setVariable("version", Optional.ofNullable(GenerateConfig.version).orElse(""));
         context.setVariable("tableName", Optional.ofNullable(tableEntity).map(TableEntity::getTableName).orElse(""));
         context.setVariable("entitySuffix", Optional.ofNullable(GenerateConfig.entitySuffix).map(StrUtil::upperFirst).orElse(""));
+        context.setVariable("lombokFlag", BooleanUtil.isTrue(GenerateConfig.lombokFlag));
         // 首字母大写的表名
         context.setVariable("entityName", Optional.ofNullable(tableEntity).map(TableEntity::getTableName).map(name -> {
             for (String prefix : GenerateConfig.tablePrefix) {
