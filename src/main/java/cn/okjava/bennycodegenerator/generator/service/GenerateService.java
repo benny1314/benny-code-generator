@@ -51,4 +51,10 @@ public interface GenerateService {
      * @return
      */
     String saveGenerateConfig(ConfigEntity configEntity);
+
+    /**
+     * 下载代码
+     * @return
+     */
+    String download();
 }

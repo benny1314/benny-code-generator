@@ -21,6 +21,7 @@ import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
@@ -42,6 +43,8 @@ public class GenerateServiceImpl implements GenerateService {
 
     @Resource
     private ColumnRepository columnRepository;
+
+    private static ThreadLocal<Map<String, String>> cacheMap;
 
     @Override
     public List<TableEntity> queryAllTables() {
@@ -141,9 +144,15 @@ public class GenerateServiceImpl implements GenerateService {
         // 判断操作系统决定使用何种方式渲染模板
         String os = System.getProperty("os.name");
         if (os.toLowerCase().startsWith("win")) {
-            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+            Map<String, String> map = renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+            cacheMap.remove();
+            cacheMap.set(map);
+            return map;
         }
-        return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
+        Map<String, String> map = renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
+        cacheMap.remove();
+        cacheMap.set(map);
+        return map;
     }
 
     /**
@@ -228,6 +237,23 @@ public class GenerateServiceImpl implements GenerateService {
                 .put("dto", dto)
                 .put("mapperXml", mapperXml)
                 .build();
+    }
+
+    @Override
+    public String download() {
+        String outputDir = GenerateConfig.outputDir;
+        if (StrUtil.isBlank(outputDir)) {
+            System.out.println("未获取到下载路径");
+        }
+        File directory = new File(outputDir);
+        if (!directory.isDirectory()) {
+            System.out.println("配置的下载路径 不是文件夹");
+        }
+        Map<String, String> map = cacheMap.get();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+
+        }
+        return "";
     }
 
     /**

@@ -76,4 +76,14 @@ public class GenerateController {
     public String saveGeneratorConfig(ConfigEntity configEntity) {
         return generateServiceImpl.saveGenerateConfig(configEntity);
     }
+
+    /**
+     * 保存生成器配置
+     */
+    @ResponseBody
+    @PostMapping("/download")
+    public String download() {
+        return generateServiceImpl.download();
+    }
+
 }
