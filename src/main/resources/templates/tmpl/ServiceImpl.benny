@@ -1,6 +1,6 @@
-package cn.okjava.bennycodegenerator.generator.repository;
+package [(${package})].service.impl;
 
-import cn.okjava.bennycodegenerator.generator.bean.[(${entityName})]Entity;
+import [(${package})].bean.[(${entityName})]Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,11 +18,11 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
     /**
      * 保存[(${entityName})]
      *
-     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     * @param [(${entityCamelName})][(${entitySuffix})] [(${entityName})]实体
      */
     @Override
-    public Result<Integer> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
-        Integer result = [(${entityCamelName})]Mapper.save([(${entityCamelName})][(${entityType})]);
+    public Result<Integer> save[(${entityName})]([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]){
+        Integer result = [(${entityCamelName})]Mapper.save([(${entityCamelName})][(${entitySuffix})]);
         if (result == 1) {
             return Result.success(result);
         }
@@ -32,11 +32,11 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
     /**
      * 修改[(${entityName})]
      *
-     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     * @param [(${entityCamelName})][(${entitySuffix})] [(${entityName})]实体
      */
     @Override
-    public Result<Integer> update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
-        Integer result = [(${entityCamelName})]Mapper.update([(${entityCamelName})][(${entityType})]);
+    public Result<Integer> update[(${entityName})]([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]){
+        Integer result = [(${entityCamelName})]Mapper.update([(${entityCamelName})][(${entitySuffix})]);
         if (result == 1) {
             return Result.success(result);
         }
@@ -46,11 +46,11 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
     /**
      * 删除[(${entityName})]
      *
-     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     * @param [(${entityCamelName})][(${entitySuffix})] [(${entityName})]实体
      */
     @Override
     public Result<Integer> deleteBy[(${entityName})]Id(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
-        Integer result = [(${entityCamelName})]Mapper.deleteBy[(${entityName})]Id([(${entityCamelName})][(${entityType})]);
+        Integer result = [(${entityCamelName})]Mapper.deleteBy[(${entityName})]Id([(${entityCamelName})][(${entitySuffix})]);
         if (result == 1) {
             return Result.success(result);
         }
@@ -60,11 +60,11 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
     /**
      * 查询[(${entityName})] 列表
      *
-     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     * @param [(${entityCamelName})][(${entitySuffix})] [(${entityName})]实体
      */
     @Override
-    public Result<List<[(${entityName})][(${entityType})]>> query[(${entityName})]List([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]){
-        List<[(${entityName})][(${entityType})]> list = [(${entityCamelName})]Mapper.query[(${entityName})]List([(${entityCamelName})][(${entityType})]);
+    public Result<List<[(${entityName})][(${entitySuffix})]>> query[(${entityName})]List([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]){
+        List<[(${entityName})][(${entitySuffix})]> list = [(${entityCamelName})]Mapper.query[(${entityName})]List([(${entityCamelName})][(${entitySuffix})]);
         if (CollectionUtils.isNotEmpty(list)) {
             return Result.success(list);
         }
@@ -77,7 +77,7 @@ public Class [(${entityName})]ServiceImpl implements [(${entityName})]Service {
      * @param [(${entityCamelName})]Id 主键id
      */
     @Override
-    public Result<List<[(${entityName})]>> query[(${entityName})]Detail(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
+    Result<List<[(${entityName})][(${entitySuffix})]>> query[(${entityName})]Detail(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id){
         Integer result = [(${entityCamelName})]Mapper.query[(${entityName})]Detail([(${entityCamelName})]Id);
         if (result == 1) {
             return Result.success(result);

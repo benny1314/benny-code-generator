@@ -1,6 +1,6 @@
-package cn.okjava.bennycodegenerator.generator.repository;
+package [(${package})].repository;
 
-import cn.okjava.bennycodegenerator.generator.bean.[(${entityName})]Entity;
+import [(${package})].bean.[(${entityName})]Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * description: [(${tableComment})]
  */
 @Repository
-public interface [(${entityName})]Repository extends JpaRepository<[(${entityName})]Entity, Long> {
+public interface [(${entityName})]Repository extends JpaRepository<[(${entityName})], Long> {
 
 }

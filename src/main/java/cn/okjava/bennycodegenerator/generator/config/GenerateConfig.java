@@ -44,7 +44,6 @@ public class GenerateConfig {
      */
     public static boolean lombokStyle;
 
-
     @Value("${benny.generator.schema}")
     public void setSchema(String schema) {
         GenerateConfig.schema = schema;

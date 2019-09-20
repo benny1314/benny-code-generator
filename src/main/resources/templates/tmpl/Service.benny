@@ -1,6 +1,6 @@
-package cn.okjava.bennycodegenerator.generator.repository;
+package [(${package})].repository;
 
-import cn.okjava.bennycodegenerator.generator.bean.[(${entityName})]Entity;
+import [(${package})].bean.[(${entityName})][(${entitySuffix})];
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,18 +12,18 @@ import org.springframework.stereotype.Repository;
 public interface [(${entityName})]Service {
 
     /**
-     * 保存[(${entityName})]
+     * 保存[(${entityName})][(${entitySuffix})]
      *
-     * @param [(${entityCamelName})][(${entityType})] 实体
+     * @param [(${entityCamelName})][(${entitySuffix})] 实体
      */
-    Result<Integer> save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+    Result<Integer> save[(${entityName})]([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]);
 
     /**
      * 修改[(${entityName})]
      *
-     * @param [(${entityCamelName})][(${entityType})] 实体
+     * @param [(${entityCamelName})][(${entitySuffix})] 实体
      */
-    Result<Integer> update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+    Result<Integer> update[(${entityName})]([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]);
 
     /**
      * 删除[(${entityName})]
@@ -35,14 +35,14 @@ public interface [(${entityName})]Service {
     /**
      * 查询[(${entityName})] 列表
      *
-     * @param [(${entityCamelName})][(${entityType})] 实体
+     * @param [(${entityCamelName})][(${entitySuffix})] 实体
      */
-    Result<List<[(${entityName})][(${entityType})]>> query[(${entityName})]List([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+    Result<List<[(${entityName})][(${entitySuffix})]>> query[(${entityName})]List([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]);
 
     /**
-     * 根据 [(${entityCamelName})]Id 查询[(${entityName})] 详情
+     * 根据 [(${entityCamelName})]Id 查询 [(${entityName})] 详情
      *
      * @param [(${entityCamelName})]Id 主键id
      */
-    Result<List<[(${entityName})]>> query[(${entityName})]Info(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
+    Result<List<[(${entityName})][(${entitySuffix})]>> query[(${entityName})]Info(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
 }

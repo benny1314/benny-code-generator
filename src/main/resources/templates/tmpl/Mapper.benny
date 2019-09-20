@@ -1,6 +1,6 @@
-package cn.okjava.bennycodegenerator.generator.repository;
+package [(${package})].mapper;
 
-import cn.okjava.bennycodegenerator.generator.bean.[(${entityName})]Entity;
+import [(${package})].bean.[(${entityName})]Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,30 +15,30 @@ public interface [(${entityName})]Mapper {
     /**
      * 保存[(${entityName})]
      *
-     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     * @param [(${entityCamelName})][(${entitySuffix})] [(${entityName})]实体
      */
-    Integer save[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+    Integer save[(${entityName})]([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]);
 
     /**
      * 修改[(${entityName})]
      *
-     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     * @param [(${entityCamelName})][(${entitySuffix})] [(${entityName})]实体
      */
-    Integer update[(${entityName})]([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+    Integer update[(${entityName})]([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]);
 
     /**
      * 删除[(${entityName})]
      *
-     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     * @param [(${entityCamelName})][(${entitySuffix})] [(${entityName})]实体
      */
     Integer deleteBy[(${entityName})]Id(@Param("[(${entityCamelName})]Id") Integer [(${entityCamelName})]Id);
 
     /**
      * 查询[(${entityName})] 列表
      *
-     * @param [(${entityCamelName})][(${entityType})] [(${entityName})]实体
+     * @param [(${entityCamelName})][(${entitySuffix})] [(${entityName})]实体
      */
-    List<[(${entityName})]> query[(${entityName})]List([(${entityName})][(${entityType})] [(${entityCamelName})][(${entityType})]);
+    List<[(${entityName})][(${entitySuffix})]> query[(${entityName})]List([(${entityName})][(${entitySuffix})] [(${entityCamelName})][(${entitySuffix})]);
 
     /**
      * 根据 [(${entityCamelName})]Id 查询[(${entityName})] 详情

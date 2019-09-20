@@ -1,4 +1,4 @@
-package [(${package})];
+package [(${package})].dto;
 
 import lombok.Data;
 

@@ -59,11 +59,12 @@
 
     <div class="row my-5">
         <div class="col-6">
-            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#configContainer" aria-expanded="false" aria-controls="collapseExample">配置基本信息</button>
+            <button class="btn btn-info btn-block" id="configBtn" type="button" data-toggle="collapse" data-target="#configContainer" aria-expanded="false" aria-controls="collapseExample">配置基本信息</button>
         </div>
         <div class="col-6">
             <button class="btn btn-outline-danger text-warning btn-block" onclick="generateCode(this)">生成代码预览</button>
             <input type="hidden" id="previewUrl" th:value="@{/generate(tableName=${tableName})}">
+            <input type="hidden" id="saveConfigUrl" th:value="@{/save}">
         </div>
         <div class="col-12 pt-3">
             <div class="collapse" id="configContainer">
@@ -93,16 +94,22 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
+                        <span class="input-group-text letter-space-zero-5">输出目录</span>
+                    </div>
+                    <input type="text" class="form-control font-weight-bold col-form-label-lg" name="outputDir" placeholder="请输入输出目录文件夹">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
                         <span class="input-group-text">表前缀</span>
                     </div>
-                    <input type="text" class="form-control font-weight-bold col-form-label-lg" name="tablePrefix" placeholder="请输入表前缀，逗号分隔">
+                    <input type="text" class="form-control font-weight-bold col-form-label-lg" name="tablePrefix" placeholder="请输入表前缀，使用 + 逗号分隔">
                 </div>
-                <!--   <div class="input-group mb-3" style="display: none;">
+               <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text font-weight-bold col-form-label-lg">实体后缀</span>
+                        <span class="input-group-text">实体后缀</span>
                     </div>
-                    <input type="text" class="form-control" name="entitySuffix" placeholder="请输入表前缀，逗号分隔">
-                </div>-->
+                    <input type="text" class="form-control font-weight-bold col-form-label-lg" name="entitySuffix" placeholder="请输入实体后缀">
+                </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">开启Lombok</span>
@@ -153,7 +160,7 @@
 <script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/sql.min.js"></script>
 
 
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
     $(function () {
         // 代码高亮
         hljs.initHighlightingOnLoad();
@@ -180,10 +187,10 @@
         if (!checkFlag) {
             alert('配置信息填写不完全');
         }
-
     }
 
     function confirmSetConfig(){
+        checkConfig();
         const configFrms = $('#configContainer').find('input[type="text"]');
         var params = {};
         $.each(configFrms,function (idx, ele) {
@@ -192,6 +199,19 @@
             params[name] = value;
         });
         localStorage.setItem("generatorConfig", JSON.stringify(params));
+        $.ajax({
+            url: $('#saveConfigUrl').val(),
+            method: "post",
+            data: params,
+            success: function (result) {
+                if(!result){
+                    $('#configBtn').click()
+                    alert('配置添加成功');
+                    return;
+                }
+                alert(result);
+            }
+        })
     }
 
     var previewObj = {
@@ -209,6 +229,7 @@
 
     let temp = `<div class="col-2"> <div class="card"> <div class="card-header text-center font-weight-bold">{{0}}</div> <div class="card-body text-center"> <button onclick="preview('{{0}}')" class="btn btn-primary m-auto">预览</button> </div> </div></div>`
     function generatePreviewBtn(){
+        checkConfig();
         const rowPrefix  = `<div class="row my-5">`
         const rowSuffix = `</div>`
         var result = '';

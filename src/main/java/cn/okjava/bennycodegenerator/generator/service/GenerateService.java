@@ -1,6 +1,7 @@
 package cn.okjava.bennycodegenerator.generator.service;
 
 import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
+import cn.okjava.bennycodegenerator.generator.bean.ConfigEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
 
 import java.util.List;
@@ -42,4 +43,12 @@ public interface GenerateService {
      * @return
      */
     Map<String,String> generate(String tableName);
+
+    /**
+     * 保存生成代码配置
+     *
+     * @param configEntity 表名
+     * @return
+     */
+    String saveGenerateConfig(ConfigEntity configEntity);
 }

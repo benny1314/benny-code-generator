@@ -1,4 +1,4 @@
-package [(${package})];
+package [(${package})].bean;
 
 import lombok.Data;
 
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * description: [(${tableComment})]
  */
 @Data
-public class [(${entityName})][(${entityType})] implements Serializable {
+public class [(${entityName})][(${entitySuffix})] implements Serializable {
 
     private static final long serialVersionUID = [(${serialVersionUID})]L;
     [# th:each="column : ${columns}"]

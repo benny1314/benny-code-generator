@@ -1,6 +1,7 @@
 package cn.okjava.bennycodegenerator.generator.rest;
 
 import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
+import cn.okjava.bennycodegenerator.generator.bean.ConfigEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
 import cn.okjava.bennycodegenerator.generator.service.GenerateService;
 import org.springframework.stereotype.Controller;
@@ -64,5 +65,15 @@ public class GenerateController {
     @PostMapping("/generate")
     public Map<String, String> genrerateCode(String tableName) {
         return generateServiceImpl.generate(tableName);
+    }
+
+    /**
+     * 保存生成器配置
+     * @param configEntity
+     */
+    @ResponseBody
+    @PostMapping("/save")
+    public String saveGeneratorConfig(ConfigEntity configEntity) {
+        return generateServiceImpl.saveGenerateConfig(configEntity);
     }
 }

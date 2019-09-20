@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="[(${package})].[(${entityCamelName})].mapper.[(${entityName})]Mapper">
+<mapper namespace="[(${package})].mapper.[(${entityName})]Mapper">
 
-    <resultMap type="cn.okjava.baby.modules.[(${entityCamelName})].bean.[(${entityName})]" id="[(${entityCamelName})]Map">
+    <resultMap type="[(${package})].bean.[(${entityName})][(${entitySuffix})]" id="[(${entityCamelName})]Map">
         [# th:each="column : ${columns}"]       [# th:if="${column.columnKey} eq 'PRI'"]
         <id property="[(${column.columnProperty})]" column="[(${column.columnName})]"/>[/] [# th:if="${column.columnKey} ne 'PRI'"]
         <result property="[(${column.columnProperty})]" column="[(${column.columnName})]"/> [/][/]
@@ -15,10 +15,10 @@
     </sql>
 
     <!--保存 [(${entityName})] -->
-    <insert id="save[(${entityName})]" [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"]keyProperty="[(${column.columnProperty})]" keyColumn="[(${column.columnName})]" [/][/]>
-        INSERT INTO [(${tableName})]
+    <insert id="save[(${entityName})]" parameterType="[(${package})].bean.[(${entityName})][(${entitySuffix})]" [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"]keyProperty="[(${column.columnProperty})]" keyColumn="[(${column.columnName})]" [/][/]>
+        INSERT INTO `[(${tableName})]`
         (
-        <trim suffixOverrides=","> [# th:each="column : ${columns}"][# th:if="${column.columnKey}ne 'PRI'"]
+        <trim suffixOverrides=","> [# th:each="column : ${columns}"][# th:if="${column.columnKey} ne 'PRI'"]
               <if test="[(${column.columnProperty})] != null">
                  `[(${column.columnName})]`,
               </if> [/][/]
@@ -36,20 +36,19 @@
 
     <!--查询 [(${entityName})] 列表-->
     <select id="query[(${entityName})]List" resultMap="[(${entityCamelName})]Map">
-        select <include refid="allResult"/> from [(${tableName})]
+        select <include refid="allResult"/> from `[(${tableName})]`
     </select>
 
     <!--查询 [(${entityName})] 详情-->
     <select id="query[(${entityName})]Info" resultMap="[(${entityCamelName})]Map">
-        select <include refid="allResult"/> from [(${tableName})] where [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] [(${column.columnName})] [/][/] = #{[(${entityCamelName})]Id}
+        select <include refid="allResult"/> from `[(${tableName})]` where [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] [(${column.columnName})] [/][/] = #{[(${entityCamelName})]Id}
     </select>
 
     <!--修改 [(${entityName})]-->
-    <update id="update[(${entityName})]">
-         UPDATE [(${tableName})]
+    <update id="update[(${entityName})]" parameterType="[(${package})].bean.[(${entityName})][(${entitySuffix})]">
+         UPDATE `[(${tableName})]`
             SET
-            <trim suffixOverrides=",">
-                [# th:each="column : ${columns}"][# th:if="${column.columnKey} ne 'PRI'"]
+            <trim suffixOverrides=","> [# th:each="column : ${columns}"][# th:if="${column.columnKey} ne 'PRI'"]
                 <if test="[(${column.columnProperty})] != null">
                     `[(${column.columnName})]` = #{[(${column.columnProperty})]},
                 </if>[/][/]
@@ -59,6 +58,6 @@
 
     <!-- 删除 [(${entityName})]-->
     <delete id=" deleteBy[(${entityName})]Id">
-         delete from [(${tableName})] where[# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] [(${column.columnName})][/][/] =#{[(entityCamelName)]}
+         delete from `[(${tableName})]` where[# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] [(${column.columnName})][/][/] = #{[(${entityCamelName})]}Id
     </delete>
 </mapper>

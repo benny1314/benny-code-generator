@@ -1,4 +1,4 @@
-package [(${package})];
+package [(${package})].entity;
 
 import lombok.Data;
 
@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "[(${tableName})]")
-public class [(${entityName})][(${entityType})] implements Serializable {
+public class [(${entityName})][(${entitySuffix})] implements Serializable {
 
     private static final long serialVersionUID = [(${serialVersionUID})]L;
     [# th:each="column : ${columns}"]       [# th:if="${column.columnKey} eq 'PRI'"]

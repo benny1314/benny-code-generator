@@ -5,6 +5,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.okjava.bennycodegenerator.generator.bean.ColumnEntity;
+import cn.okjava.bennycodegenerator.generator.bean.ConfigEntity;
 import cn.okjava.bennycodegenerator.generator.bean.TableEntity;
 import cn.okjava.bennycodegenerator.generator.config.GenerateConfig;
 import cn.okjava.bennycodegenerator.generator.config.ThymeleafConfig;
@@ -21,8 +22,10 @@ import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -55,6 +58,42 @@ public class GenerateServiceImpl implements GenerateService {
     }
 
     @Override
+    public String saveGenerateConfig(ConfigEntity configEntity) {
+        String result = checkGeneratorConfig(configEntity);
+        if (StrUtil.isNotBlank(result)) {
+            return result;
+        }
+        GenerateConfig.packageName = configEntity.getPackageName();
+        GenerateConfig.tablePrefix = configEntity.getTablePrefix().split("\\+");
+        GenerateConfig.author = configEntity.getAuthor();
+        GenerateConfig.version = configEntity.getVersion();
+        GenerateConfig.outputDir = configEntity.getOutputDir();
+        GenerateConfig.entitySuffix = configEntity.getEntitySuffix();
+        return StrUtil.EMPTY;
+    }
+
+    /**
+     * 校验参数非空
+     *
+     * @param configEntity
+     * @return
+     */
+    public String checkGeneratorConfig(ConfigEntity configEntity) {
+        Field[] declaredFields = configEntity.getClass().getDeclaredFields();
+        for (Field field : declaredFields) {
+            //设置是否允许访问，不是修改原来的访问权限修饰词。
+            field.setAccessible(true);
+            try {
+                if (Objects.isNull(field.get(configEntity))) {
+                    return field.getName() + "为空！";
+                }
+            } catch (IllegalAccessException e) {
+            }
+        }
+        return StrUtil.EMPTY;
+    }
+
+    @Override
     public Map<String, String> generate(String tableName) {
         Context context = new Context();
         TableEntity tableEntity = queryTableByTableName(tableName);
@@ -63,7 +102,7 @@ public class GenerateServiceImpl implements GenerateService {
         context.setVariable("author", Optional.ofNullable(GenerateConfig.author).orElse(""));
         context.setVariable("version", Optional.ofNullable(GenerateConfig.version).orElse(""));
         context.setVariable("tableName", Optional.ofNullable(tableEntity).map(TableEntity::getTableName).orElse(""));
-        context.setVariable("entityType", Optional.ofNullable(GenerateConfig.entitySuffix).map(StrUtil::upperFirst).orElse(""));
+        context.setVariable("entitySuffix", Optional.ofNullable(GenerateConfig.entitySuffix).map(StrUtil::upperFirst).orElse(""));
         // 首字母大写的表名
         context.setVariable("entityName", Optional.ofNullable(tableEntity).map(TableEntity::getTableName).map(name -> {
             for (String prefix : GenerateConfig.tablePrefix) {
@@ -98,7 +137,7 @@ public class GenerateServiceImpl implements GenerateService {
         // 判断操作系统决定使用何种方式渲染模板
         String os = System.getProperty("os.name");
         if (os.toLowerCase().startsWith("win")) {
-        return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
         }
         return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
     }
