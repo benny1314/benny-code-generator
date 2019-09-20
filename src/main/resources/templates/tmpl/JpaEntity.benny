@@ -25,11 +25,11 @@ public class [(${entityName})][(${entitySuffix})] implements Serializable {
      */
     @Id
     @Column(name = "[(${column.columnName})]")
-    private [(${column.columnType})] [(${column.columnProperty})]; [/] [# th:if="${column.columnKey} ne 'PRI'"]
+    private [(${column.columnType})] [(${column.columnCamelProperty})]; [/] [# th:if="${column.columnKey} ne 'PRI'"]
     /**
      * [(${column.columnComment})]
      */
     @Column(name = "[(${column.columnName})]")
-    private [(${column.columnType})] [(${column.columnProperty})]; [/]
+    private [(${column.columnType})] [(${column.columnCamelProperty})]; [/]
 [/]
 }

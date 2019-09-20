@@ -4,8 +4,8 @@
 
     <resultMap type="[(${package})].bean.[(${entityName})][(${entitySuffix})]" id="[(${entityCamelName})]Map">
         [# th:each="column : ${columns}"]       [# th:if="${column.columnKey} eq 'PRI'"]
-        <id property="[(${column.columnProperty})]" column="[(${column.columnName})]"/>[/] [# th:if="${column.columnKey} ne 'PRI'"]
-        <result property="[(${column.columnProperty})]" column="[(${column.columnName})]"/> [/][/]
+        <id property="[(${column.columnCamelProperty})]" column="[(${column.columnName})]"/>[/] [# th:if="${column.columnKey} ne 'PRI'"]
+        <result property="[(${column.columnCamelProperty})]" column="[(${column.columnName})]"/> [/][/]
     </resultMap>
 
     <sql id="allResult">
@@ -15,11 +15,11 @@
     </sql>
 
     <!--保存 [(${entityName})] -->
-    <insert id="save[(${entityName})]" parameterType="[(${package})].bean.[(${entityName})][(${entitySuffix})]" [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"]keyProperty="[(${column.columnProperty})]" keyColumn="[(${column.columnName})]" [/][/]>
+    <insert id="save[(${entityName})]" parameterType="[(${package})].bean.[(${entityName})][(${entitySuffix})]" [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"]keyProperty="[(${column.columnCamelProperty})]" keyColumn="[(${column.columnName})]" [/][/]>
         INSERT INTO `[(${tableName})]`
         (
         <trim suffixOverrides=","> [# th:each="column : ${columns}"][# th:if="${column.columnKey} ne 'PRI'"]
-              <if test="[(${column.columnProperty})] != null">
+              <if test="[(${column.columnCamelProperty})] != null">
                  `[(${column.columnName})]`,
               </if> [/][/]
             </trim>
@@ -27,8 +27,8 @@
             VALUES
             (
             <trim suffixOverrides=","> [# th:each="column : ${columns}"][# th:if="${column.columnKey} ne 'PRI'"]
-                <if test="[(${column.columnProperty})] != null">
-                  #{[(${column.columnProperty})]},
+                <if test="[(${column.columnCamelProperty})] != null">
+                  #{[(${column.columnCamelProperty})]},
                 </if> [/][/]
             </trim>
             )
@@ -49,8 +49,8 @@
          UPDATE `[(${tableName})]`
             SET
             <trim suffixOverrides=","> [# th:each="column : ${columns}"][# th:if="${column.columnKey} ne 'PRI'"]
-                <if test="[(${column.columnProperty})] != null">
-                    `[(${column.columnName})]` = #{[(${column.columnProperty})]},
+                <if test="[(${column.columnCamelProperty})] != null">
+                    `[(${column.columnName})]` = #{[(${column.columnCamelProperty})]},
                 </if>[/][/]
             </trim>
             where [# th:each="column : ${columns}"][# th:if="${column.columnKey} eq 'PRI'"] [(${column.columnName})] [/][/] = #{[(${entityCamelName})]Id}

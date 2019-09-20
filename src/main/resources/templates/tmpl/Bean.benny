@@ -21,6 +21,14 @@ public class [(${entityName})][(${entitySuffix})] implements Serializable {
     /**
      * [(${column.columnComment})]
      */
-    private [(${column.columnType})] [(${column.columnProperty})];
+    private [(${column.columnType})] [(${column.columnCamelProperty})];
+    [/]
+    [# th:each="column : ${columns}"]
+    public void set[(${column.columnProperty})]([(${column.columnType})] [(${column.columnCamelProperty})]) {
+            this.[(${column.columnCamelProperty})] = [(${column.columnCamelProperty})];
+    }
+    public String get[(${column.columnProperty})]() {
+        return [(${column.columnCamelProperty})];
+    }
     [/]
 }

@@ -126,7 +126,8 @@ public class GenerateServiceImpl implements GenerateService {
             columnEntity.setColumnComment(Optional.of(columnEntity).map(entity -> StrUtil.toCamelCase(entity.getColumnComment())).orElse(""));
             columnEntity.setColumnKey(Optional.of(columnEntity).map(entity -> StrUtil.toCamelCase(entity.getColumnKey())).orElse(""));
             columnEntity.setColumnName(Optional.of(columnEntity).map(ColumnEntity::getColumnName).orElse(""));
-            columnEntity.setColumnProperty(Optional.of(columnEntity).map(entity -> StrUtil.toCamelCase(entity.getColumnName())).orElse(""));
+            columnEntity.setColumnCamelProperty(Optional.of(columnEntity).map(entity -> StrUtil.toCamelCase(entity.getColumnName())).orElse(""));
+            columnEntity.setColumnProperty(Optional.of(columnEntity).map(entity -> StrUtil.upperFirst(StrUtil.toCamelCase(entity.getColumnName()))).orElse(""));
             columnEntity.setColumnDefault(Optional.of(columnEntity).map(entity -> StrUtil.toString(entity.getColumnDefault())).orElse(""));
             columnEntity.setIsNullable(Optional.of(columnEntity).map(entity -> StrUtil.toString(entity.getIsNullable())).orElse(""));
             columnEntity.setLength(Optional.of(columnEntity).map(ColumnEntity::getLength).orElse(0));

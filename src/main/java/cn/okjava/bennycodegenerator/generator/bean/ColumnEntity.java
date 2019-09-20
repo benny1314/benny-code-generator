@@ -42,6 +42,9 @@ public class ColumnEntity implements Serializable {
      * 列名
      */
     @Transient
+    private String columnCamelProperty;
+
+    @Transient
     private String columnProperty;
 
     /**
@@ -172,6 +175,14 @@ public class ColumnEntity implements Serializable {
 
     public void setColumnProperty(String columnProperty) {
         this.columnProperty = columnProperty;
+    }
+
+    public String getColumnCamelProperty() {
+        return columnCamelProperty;
+    }
+
+    public void setColumnCamelProperty(String columnCamelProperty) {
+        this.columnCamelProperty = columnCamelProperty;
     }
 
     public void setColumnType(String columnType) {

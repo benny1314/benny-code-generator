@@ -21,6 +21,6 @@ public class [(${entityName})]Dto implements Serializable {
     /**
      * [(${column.columnComment})]
      */
-    private [(${column.columnType})] [(${column.columnProperty})];
+    private [(${column.columnType})] [(${column.columnCamelProperty})];
     [/]
 }
