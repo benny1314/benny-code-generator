@@ -14,8 +14,6 @@ public class ConfigEntity {
 
     private String outputDir;
 
-    private String moduleName;
-
     private String author;
 
     private String version;
@@ -41,14 +39,6 @@ public class ConfigEntity {
 
     public void setOutputDir(String outputDir) {
         this.outputDir = outputDir;
-    }
-
-    public String getModuleName() {
-        return moduleName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
     }
 
     public String getAuthor() {
