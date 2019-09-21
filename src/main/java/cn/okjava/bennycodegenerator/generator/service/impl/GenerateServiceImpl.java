@@ -244,7 +244,7 @@ public class GenerateServiceImpl implements GenerateService {
             template = renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
         }
 
-        String outputDir = GenerateConfig.outputDir;
+        String outputDir = GenerateConfig.outputDir + File.separator;
         if (StrUtil.isBlank(outputDir)) {
             System.out.println("未获取到下载路径");
         }
@@ -252,24 +252,28 @@ public class GenerateServiceImpl implements GenerateService {
         if (!directory.isDirectory()) {
             System.out.println("配置的下载路径 不是文件夹");
         }
-        FileWriter fileWriter = null;
         try {
             for (Map.Entry<String, String> entry : template.entrySet()) {
                 String fileName = entry.getKey();
                 String content = entry.getValue();
                 String packageName = GenerateConfig.packageName;
-                String packageDirectory = packageName.replaceAll("\\.","/");
-                fileWriter = new FileWriter(outputDir + packageDirectory + File.separator + getFileName(fileName, tableName));
+                String packageDirectory = packageName.replaceAll("\\.", "\\\\");
+                String fileDirectory = outputDir + packageDirectory + File.separator + getFileName(fileName, tableName);
+                new File(fileDirectory).mkdirs();
+                String filePath = "";
+                if (fileName.contains("Xml")) {
+                    filePath = StrUtil.toCamelCase(tableName) + StrUtil.upperFirst(fileName) + ".xml";
+                } else {
+                    filePath = StrUtil.toCamelCase(tableName) + StrUtil.upperFirst(fileName) + ".java";
+                }
+                String name = fileDirectory + filePath;
+                File file = new File(name);
+                FileWriter fileWriter = new FileWriter(file.getPath());
                 fileWriter.write(content);
-            }
-        } catch (IOException e) {
-        } finally {
-            try {
                 fileWriter.flush();
                 fileWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
         }
     }
 
@@ -280,25 +284,25 @@ public class GenerateServiceImpl implements GenerateService {
         tableName = StrUtil.upperFirst(StrUtil.toCamelCase(tableName));
         switch (name) {
             case "mappers":
-                return "mappers" + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName)) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".xml");
+                return "mappers" + File.separator + StrUtil.toCamelCase(tableName) + File.separator;
             case "controller":
-                return "rest" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+                return "rest" + File.separator + StrUtil.toCamelCase(tableName) + File.separator ;
             case "dto":
-                return "dto" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+                return "dto" + File.separator + StrUtil.toCamelCase(tableName) + File.separator ;
             case "entity":
-                return "entity" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+                return "entity" + File.separator + StrUtil.toCamelCase(tableName) + File.separator ;
             case "bean":
-                return "bean" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+                return "bean" + File.separator + StrUtil.toCamelCase(tableName) + File.separator ;
             case "mapper":
-                return "mapper" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+                return "mapper" + File.separator + StrUtil.toCamelCase(tableName) + File.separator ;
             case "repository":
-                return "repository" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+                return "repository" + File.separator + StrUtil.toCamelCase(tableName) + File.separator ;
             case "service":
-                return "service" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+                return "service" + File.separator + StrUtil.toCamelCase(tableName) + File.separator ;
             case "impl":
-                return "service" + File.separator + "impl" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+                return "service" + File.separator + "impl" + File.separator + StrUtil.toCamelCase(tableName) + File.separator ;
             default:
-                throw new RuntimeException("");
+                return "";
         }
     }
 
