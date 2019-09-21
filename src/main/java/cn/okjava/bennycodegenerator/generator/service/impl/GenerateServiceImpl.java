@@ -20,10 +20,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +40,6 @@ public class GenerateServiceImpl implements GenerateService {
 
     @Resource
     private ColumnRepository columnRepository;
-
-    private static ThreadLocal<Map<String, String>> cacheMap;
 
     @Override
     public List<TableEntity> queryAllTables() {
@@ -100,6 +95,16 @@ public class GenerateServiceImpl implements GenerateService {
 
     @Override
     public Map<String, String> generate(String tableName) {
+        Context context = getContext(tableName);
+        // 判断操作系统决定使用何种方式渲染模板
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().startsWith("win")) {
+            return renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+        }
+        return renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
+    }
+
+    private Context getContext(String tableName) {
         Context context = new Context();
         TableEntity tableEntity = queryTableByTableName(tableName);
         // 表信息
@@ -141,18 +146,7 @@ public class GenerateServiceImpl implements GenerateService {
         });
         // 设置 表字段
         context.setVariable("columns", columnEntities);
-        // 判断操作系统决定使用何种方式渲染模板
-        String os = System.getProperty("os.name");
-        if (os.toLowerCase().startsWith("win")) {
-            Map<String, String> map = renderTemplate(context, ThymeleafConfig.getTemplateEngine());
-            cacheMap.remove();
-            cacheMap.set(map);
-            return map;
-        }
-        Map<String, String> map = renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
-        cacheMap.remove();
-        cacheMap.set(map);
-        return map;
+        return context;
     }
 
     /**
@@ -240,7 +234,16 @@ public class GenerateServiceImpl implements GenerateService {
     }
 
     @Override
-    public String download() {
+    public void download(String tableName) {
+        Context context = getContext(tableName);
+        String os = System.getProperty("os.name");
+        Map<String, String> template;
+        if (os.toLowerCase().startsWith("win")) {
+            template = renderTemplate(context, ThymeleafConfig.getTemplateEngine());
+        } else {
+            template = renderLinuxTemplate(context, ThymeleafLinuxConfig.getTemplateEngine());
+        }
+
         String outputDir = GenerateConfig.outputDir;
         if (StrUtil.isBlank(outputDir)) {
             System.out.println("未获取到下载路径");
@@ -249,11 +252,54 @@ public class GenerateServiceImpl implements GenerateService {
         if (!directory.isDirectory()) {
             System.out.println("配置的下载路径 不是文件夹");
         }
-        Map<String, String> map = cacheMap.get();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-
+        FileWriter fileWriter = null;
+        try {
+            for (Map.Entry<String, String> entry : template.entrySet()) {
+                String fileName = entry.getKey();
+                String content = entry.getValue();
+                String packageName = GenerateConfig.packageName;
+                String packageDirectory = packageName.replaceAll("\\.","/");
+                fileWriter = new FileWriter(outputDir + packageDirectory + File.separator + getFileName(fileName, tableName));
+                fileWriter.write(content);
+            }
+        } catch (IOException e) {
+        } finally {
+            try {
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return "";
+    }
+
+    private String getFileName(String name, String tableName) {
+        for (String prefix : GenerateConfig.tablePrefix) {
+            tableName = StrUtil.replace(tableName, prefix, "");
+        }
+        tableName = StrUtil.upperFirst(StrUtil.toCamelCase(tableName));
+        switch (name) {
+            case "mappers":
+                return "mappers" + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName)) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".xml");
+            case "controller":
+                return "rest" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+            case "dto":
+                return "dto" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+            case "entity":
+                return "entity" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+            case "bean":
+                return "bean" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+            case "mapper":
+                return "mapper" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+            case "repository":
+                return "repository" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+            case "service":
+                return "service" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+            case "impl":
+                return "service" + File.separator + "impl" + File.separator + StrUtil.toCamelCase(tableName) + File.separator + StrUtil.upperFirst(StrUtil.toCamelCase(tableName) + ".java");
+            default:
+                throw new RuntimeException("");
+        }
     }
 
     /**

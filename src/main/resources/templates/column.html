@@ -68,10 +68,10 @@
         <div class="col-4">
             <button class="btn btn-outline-danger text-warning btn-block" onclick="generateCode(this)">生成代码预览</button>
             <input type="hidden" id="previewUrl" th:value="@{/generate(tableName=${tableName})}">
-            <input type="hidden" id="saveConfigUrl" th:value="@{/save}">
+            <input type="hidden" id="saveConfigUrl" th:value="@{/save(tableName=${tableName})}">
         </div>
         <div class="col-4">
-            <button class="btn btn-outline-danger text-warning btn-block" onclick="download()">一键下载</button>
+            <a th:href="@{/download(tableName=${tableName})}" class="btn btn-outline-danger text-warning btn-block" target="_blank">一键下载</a>
         </div>
         <div class="col-12 pt-3">
             <div class="collapse" id="configContainer">

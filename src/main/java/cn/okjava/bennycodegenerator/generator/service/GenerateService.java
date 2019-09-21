@@ -56,5 +56,5 @@ public interface GenerateService {
      * 下载代码
      * @return
      */
-    String download();
+    void download(String tableName);
 }

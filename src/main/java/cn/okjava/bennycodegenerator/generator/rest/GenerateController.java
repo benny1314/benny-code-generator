@@ -80,10 +80,9 @@ public class GenerateController {
     /**
      * 保存生成器配置
      */
-    @ResponseBody
-    @PostMapping("/download")
-    public String download() {
-        return generateServiceImpl.download();
+    @GetMapping("/download")
+    public void download(String tableName) {
+        generateServiceImpl.download(tableName);
     }
 
 }
